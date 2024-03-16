@@ -19,5 +19,12 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        if (MessageBox.Show("Are you sure you want to weave!!!?????",
+                "Save file",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question) == MessageBoxResult.Yes)
+        {
+            // Do something here
+        }
     }
 }

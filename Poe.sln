@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Poe", "Poe.csproj", "{2961B0D8-2B9A-4465-B18A-8A3EB13E26D7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8E1BEB45-54E3-439A-90E8-BBA07EA81A59}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E1694F13-CC7B-4D18-ABA5-132B877D0623}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,8 @@ Global
 		{2961B0D8-2B9A-4465-B18A-8A3EB13E26D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2961B0D8-2B9A-4465-B18A-8A3EB13E26D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2961B0D8-2B9A-4465-B18A-8A3EB13E26D7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2961B0D8-2B9A-4465-B18A-8A3EB13E26D7} = {8E1BEB45-54E3-439A-90E8-BBA07EA81A59}
 	EndGlobalSection
 EndGlobal

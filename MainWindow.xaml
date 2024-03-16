@@ -7,6 +7,48 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <!-- Define the rows -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Navbar -->
+            <RowDefinition Height="Auto"/> <!-- User functionality (e.g., font selection) -->
+            <RowDefinition Height="*"/>    <!-- Main content area -->
+        </Grid.RowDefinitions>
 
+        <!-- First row: Navbar -->
+        <Grid Grid.Row="0" Background="LightGray">
+            <TextBlock Text="Navbar" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Grid>
+
+        <!-- Second row: User functionality -->
+        <Grid Grid.Row="1" Background="LightBlue">
+            <TextBlock Text="User Functionality" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Grid>
+
+        <!-- Third row: Main content area -->
+        <Grid Grid.Row="2">
+            <!-- Define the columns for the third row -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/> <!-- Left column (e.g., for additional tools) -->
+                <ColumnDefinition Width="*"/>    <!-- Main document column -->
+                <ColumnDefinition Width="Auto"/> <!-- Right column (e.g., for additional tools) -->
+            </Grid.ColumnDefinitions>
+
+            <!-- Left column -->
+            <Grid Grid.Column="0" Background="Beige">
+                <TextBlock Text="Left Sidebar" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Grid>
+        
+            <!-- Main document column -->
+            <Grid Grid.Column="1" Background="White">
+                <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+            </Grid>
+
+            <!-- Right column -->
+            <Grid Grid.Column="2" Background="Beige">
+                <TextBlock Text="Right Sidebar" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            </Grid>
+        </Grid>
     </Grid>
+
+
 </Window>

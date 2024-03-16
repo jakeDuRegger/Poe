@@ -10,4 +10,3 @@ namespace Poe;
 public partial class App : Application
 {
 }
-
