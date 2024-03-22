@@ -25,9 +25,12 @@
 
         <!-- Define the rows -->
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/> <!-- Navbar -->
-            <RowDefinition Height="Auto"/> <!-- User functionality (e.g., font selection) -->
-            <RowDefinition Height="*"/>    <!-- Main content area -->
+            <RowDefinition Height="Auto"/>
+            <!-- Navbar -->
+            <RowDefinition Height="Auto"/>
+            <!-- User functionality (e.g., font selection) -->
+            <RowDefinition Height="*"/>
+            <!-- Main content area -->
         </Grid.RowDefinitions>
 
         <!-- First row: Navbar -->
@@ -35,28 +38,32 @@
             <TextBlock Text="Navbar" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
 
-        <!-- Second row: User functionality -->
-        <Grid Grid.Row="1" Background="LightBlue">
-            <TextBlock Text="User Functionality" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        </Grid>
-
         <!-- Third row: Main content area -->
         <Grid Grid.Row="2">
             <!-- Define the columns for the third row -->
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/> <!-- Left column (e.g., for additional tools) -->
-                <ColumnDefinition Width="*"/>    <!-- Main document column -->
-                <ColumnDefinition Width="Auto"/> <!-- Right column (e.g., for additional tools) -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- Left column (e.g., for additional tools) -->
+                <ColumnDefinition Width="*"/>
+                <!-- Main document column -->
+                <ColumnDefinition Width="Auto"/>
+                <!-- Right column (e.g., for additional tools) -->
             </Grid.ColumnDefinitions>
 
             <!-- Left column -->
             <Grid Grid.Column="0" Background="Beige">
                 <TextBlock Text="Left Sidebar" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Grid>
-        
+
             <!-- Main document column -->
             <Grid Grid.Column="1" Background="White">
-                <TextBox TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="104*"/>
+                    <ColumnDefinition Width="229*"/>
+                </Grid.ColumnDefinitions>
+                <!-- By default pressing tab moves focus to the next control. Setting AcceptsTab to true allows the 
+           RichTextBox to accept tab characters. -->
+                <RichTextBox Name="mainRTB" AcceptsTab="True" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2"></RichTextBox>
             </Grid>
 
             <!-- Right column -->
@@ -129,9 +136,7 @@
 
             </ToolBar>
 
-            <!-- By default pressing tab moves focus to the next control. Setting AcceptsTab to true allows the 
-           RichTextBox to accept tab characters. -->
-            <RichTextBox Name="mainRTB" AcceptsTab="True"></RichTextBox>
+
         </DockPanel>
     </Grid>
 
