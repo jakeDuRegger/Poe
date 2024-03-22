@@ -3,3 +3,6 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+/.vs/Poe/DesignTimeBuild
+/.vs/Poe/FileContentIndex
+/.vs/Poe/v17
