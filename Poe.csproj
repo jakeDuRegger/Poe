@@ -8,4 +8,50 @@
         <UseWPF>true</UseWPF>
     </PropertyGroup>
 
+    <ItemGroup>
+      <None Remove="Images\EditRedo.png" />
+      <Resource Include="Images\EditRedo.png" />
+      <None Remove="Images\EditUndo.png" />
+      <Resource Include="Images\EditUndo.png" />
+      <None Remove="Images\FileOpen.png" />
+      <Resource Include="Images\FileOpen.png" />
+      <None Remove="Images\FileSave.png" />
+      <Resource Include="Images\FileSave.png" />
+      <None Remove="Images\ListBullets.png" />
+      <Resource Include="Images\ListBullets.png" />
+      <None Remove="Images\ListNumbering.png" />
+      <Resource Include="Images\ListNumbering.png" />
+      <None Remove="Images\ParagraphCenterJustify.png" />
+      <Resource Include="Images\ParagraphCenterJustify.png" />
+      <None Remove="Images\ParagraphDecreaseIndentation.png" />
+      <Resource Include="Images\ParagraphDecreaseIndentation.png" />
+      <None Remove="Images\ParagraphFullJustify.png" />
+      <Resource Include="Images\ParagraphFullJustify.png" />
+      <None Remove="Images\ParagraphIncreaseIndentation.png" />
+      <Resource Include="Images\ParagraphIncreaseIndentation.png" />
+      <None Remove="Images\ParagraphLeftJustify.png" />
+      <Resource Include="Images\ParagraphLeftJustify.png" />
+      <None Remove="Images\ParagraphRightJustify.png" />
+      <Resource Include="Images\ParagraphRightJustify.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Images\CharacterGrowFont.png" />
+      <Resource Include="Images\CharacterGrowFont.png" />
+      <None Remove="Images\CharacterShrinkFont.png" />
+      <Resource Include="Images\CharacterShrinkFont.png" />
+      <None Remove="Images\EditCopy.png" />
+      <Resource Include="Images\EditCopy.png" />
+      <None Remove="Images\EditCut.png" />
+      <Resource Include="Images\EditCut.png" />
+      <None Remove="Images\EditPaste.png" />
+      <Resource Include="Images\EditPaste.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.WindowsAPICodePack.Shell" Version="1.1.0" />
+      <PackageReference Include="WindowsAPICodePack-Core" Version="1.1.2" />
+      <PackageReference Include="WindowsAPICodePack-Shell" Version="1.1.1" />
+    </ItemGroup>
+
 </Project>

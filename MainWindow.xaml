@@ -5,140 +5,244 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Poe"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Poe" 
+        Height="650" 
+        Width="800" 
+        WindowStyle="None" 
+        AllowsTransparency="True"
+        ResizeMode="CanResize"
+        Background="Transparent"
+        Icon="Images/Icon.ico">
+    <Window.Resources>
+        <Style x:Key="ToolBarStyle" TargetType="{x:Type ToolBar}">
+            <Setter Property="Background" Value="#4E4E4E"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToolBar}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ToolBarPanel IsItemsHost="True"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>    
+    
+
+    
     <Grid>
-
-        <!-- Set the styles for the tool bar. -->
-        <Grid.Resources>
-            <Style TargetType="{x:Type Button}" x:Key="formatTextStyle">
-                <Setter Property="FontFamily" Value="Palatino Linotype"></Setter>
-                <Setter Property="Width" Value="30"></Setter>
-                <Setter Property="FontSize" Value ="14"></Setter>
-                <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"></Setter>
-            </Style>
-
-            <Style TargetType="{x:Type Button}" x:Key="formatImageStyle">
-                <Setter Property="Width" Value="30"></Setter>
-                <Setter Property="CommandTarget" Value="{Binding ElementName=mainRTB}"></Setter>
-            </Style>
-        </Grid.Resources>
-
-        <!-- Define the rows -->
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <!-- Navbar -->
-            <RowDefinition Height="Auto"/>
-            <!-- User functionality (e.g., font selection) -->
-            <RowDefinition Height="*"/>
-            <!-- Main content area -->
-        </Grid.RowDefinitions>
-
-        <!-- First row: Navbar -->
-        <Grid Grid.Row="0" Background="LightGray">
-            <TextBlock Text="Navbar" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        </Grid>
-
-        <!-- Third row: Main content area -->
-        <Grid Grid.Row="2">
-            <!-- Define the columns for the third row -->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <!-- Left column (e.g., for additional tools) -->
-                <ColumnDefinition Width="*"/>
-                <!-- Main document column -->
-                <ColumnDefinition Width="Auto"/>
-                <!-- Right column (e.g., for additional tools) -->
-            </Grid.ColumnDefinitions>
-
-            <!-- Left column -->
-            <Grid Grid.Column="0" Background="Beige">
-                <TextBlock Text="Left Sidebar" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            </Grid>
-
-            <!-- Main document column -->
-            <Grid Grid.Column="1" Background="White">
+        <!-- Custom Title Bar -->
+        <Border Background="#4E4E4E" MouseLeftButtonDown="DragWindowResize">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="104*"/>
-                    <ColumnDefinition Width="229*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <!-- By default pressing tab moves focus to the next control. Setting AcceptsTab to true allows the 
-           RichTextBox to accept tab characters. -->
-                <RichTextBox Name="mainRTB" AcceptsTab="True" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2"></RichTextBox>
+                <TextBlock Text="Poe" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="White" FontSize="16"/>
+                <Button Grid.Column="1" Content="🗕" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,0,0" Click="MinimizeWindow"/>
+                <Button Grid.Column="2" Content="🗖" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,0,0" Click="MaximizeRestoreWindow"/>
+                <Button Grid.Column="3" Content="X" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,0,0" Click="CloseWindow"/>
             </Grid>
+        </Border>
 
-            <!-- Right column -->
-            <Grid Grid.Column="2" Background="Beige">
-                <TextBlock Text="Right Sidebar" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <!-- Main content area -->
+        <Grid Margin="0,30,0,0">
+        <!-- Set the styles for the toolbar and RichTextBox -->
+            <Grid.Resources>
+
+                <!-- Button styles -->
+                <Style TargetType="{x:Type Button}" x:Key="FormatTextStyle">
+                    <Setter Property="FontFamily" Value="Palatino Linotype"></Setter>
+                    <Setter Property="Width" Value="36"></Setter>
+                    <Setter Property="FontSize" Value="14"></Setter>
+                    <Setter Property="CommandTarget" Value="{Binding ElementName=RichTextBox}"></Setter>
+                    <Setter Property="Margin" Value="0"></Setter>
+                    <Setter Property="Background" Value="#4E4E4E"></Setter>
+                    <Setter Property="Foreground" Value="White"></Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#5E5E5E"></Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+
+                <Style TargetType="{x:Type Button}" x:Key="FormatImageStyle">
+                    <Setter Property="Width" Value="30"></Setter>
+                    <Setter Property="CommandTarget" Value="{Binding ElementName=RichTextBox}"></Setter>
+                    <Setter Property="Margin" Value="2"></Setter>
+                    <Setter Property="Background" Value="#4E4E4E"></Setter>
+                    <Setter Property="Foreground" Value="White"></Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#5E5E5E"></Setter>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+
+                <!-- RichTextBox style -->
+                <Style TargetType="{x:Type RichTextBox}">
+                    <Setter Property="Padding" Value="10"></Setter>
+                    <Setter Property="Background" Value="#FAFAFA"></Setter>
+                    <Setter Property="BorderThickness" Value="0"></Setter>
+                    <Setter Property="BorderBrush" Value="#DDD"></Setter>
+                    <Setter Property="SelectionBrush" Value="Bisque"></Setter>
+                    <Setter Property="SelectionOpacity" Value="0.5"/>
+                 </Style>
+                <!-- ToolBar style -->
+                <Style TargetType="{x:Type ToolBar}">
+                    <Setter Property="Background" Value="#4E4E4E"></Setter>
+                    <Setter Property="BorderThickness" Value="0"></Setter>
+                    <Setter Property="BorderBrush" Value="Transparent"></Setter>
+                </Style>
+                
+            </Grid.Resources>
+
+            <!-- Layout -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/> <!-- Main content -->
+            </Grid.RowDefinitions>
+
+            
+            <!-- Navbar -->
+            <Grid Grid.Row="0" Background="#4E4E4E">
+                <TextBlock 
+                    Text="Poe" 
+                    Margin="25, 5, 0, 0"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left" 
+                    Foreground="#333" 
+                    FontSize="24"
+                    />
             </Grid>
-        </Grid>
-
-        <DockPanel Name="mainPanel" Grid.Row="1">
-
+            
+            <StackPanel Name="MainPanel" Grid.Row="1" HorizontalAlignment="Stretch" Background="#4E4E4E">
             <!-- This tool bar contains all the editing buttons. -->
-            <ToolBar Name="mainToolBar" Height="30" DockPanel.Dock="Top">
-
-                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut">
-                    <Image Source="Images\EditCut.png"></Image>
+            <ToolBar Name="MainToolBar" 
+                     Height="30" 
+                     Background="#4E4E4E" 
+                     HorizontalAlignment="Stretch" 
+                     ToolBarTray.IsLocked="True" 
+                     Loaded="ToolBar_Loaded" 
+                     Style="{StaticResource 
+                     ToolBarStyle}"
+                     Margin="20 0 20 0">
+                <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
+                    <TextBlock Margin="0 ">New</TextBlock>
                 </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Copy" ToolTip="Copy">
-                    <Image Source="Images\EditCopy.png"></Image>
+                <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
+                    <TextBlock Margin="0 ">File</TextBlock>
                 </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Paste" ToolTip="Paste">
-                    <Image Source="Images\EditPaste.png"></Image>
+                <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut">
+                    <Image Source="Images/EditCut.png"></Image>
                 </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Undo">
-                    <Image Source="Images\EditUndo.png"></Image>
+                <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Copy" ToolTip="Copy">
+                    <Image Source="Images/EditCopy.png"></Image>
                 </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Redo">
-                    <Image Source="Images\EditRedo.png"></Image>
+                <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Paste" ToolTip="Paste">
+                    <Image Source="Images/EditPaste.png"></Image>
                 </Button>
-
-                <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
+                <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Undo">
+                    <Image Source="Images/EditUndo.png"></Image>
+                </Button>
+                <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Redo">
+                    <Image Source="Images/EditRedo.png"></Image>
+                </Button>
+                <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
                     <TextBlock FontWeight="Bold">B</TextBlock>
                 </Button>
-                <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Italic">
+                <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Italic">
                     <TextBlock FontStyle="Italic" FontWeight="Bold">I</TextBlock>
                 </Button>
-                <Button Style="{StaticResource formatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Underline">
+                <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Underline">
                     <TextBlock TextDecorations="Underline" FontWeight="Bold">U</TextBlock>
                 </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font">
-                    <Image Source="Images\CharacterGrowFont.png"></Image>
+                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font">
+                    <Image Source="Images/CharacterGrowFont.png"></Image>
                 </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Shrink Font">
-                    <Image Source="Images\CharacterShrinkFont.png"></Image>
+                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Shrink Font">
+                    <Image Source="Images/CharacterShrinkFont.png"></Image>
                 </Button>
 
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Bullets">
-                    <Image Source="Images\ListBullets.png"></Image>
+                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Bullets">
+                    <Image Source="Images/ListBullets.png"></Image>
                 </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Numbering">
+                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Numbering">
                     <Image Source="Images/ListNumbering.png"></Image>
                 </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="Align Left">
-                    <Image Source="Images\ParagraphLeftJustify.png"></Image>
+                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="Align Left">
+                    <Image Source="Images/ParagraphLeftJustify.png"></Image>
                 </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="Align Center">
-                    <Image Source="Images\ParagraphCenterJustify.png"></Image>
+                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="Align Center">
+                    <Image Source="Images/ParagraphCenterJustify.png"></Image>
                 </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="Align Right">
-                    <Image Source="Images\ParagraphRightJustify.png"></Image>
+                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="Align Right">
+                    <Image Source="Images/ParagraphRightJustify.png"></Image>
                 </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.AlignJustify" ToolTip="Align Justify">
-                    <Image Source="Images\ParagraphFullJustify.png"></Image>
+                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignJustify" ToolTip="Align Justify">
+                    <Image Source="Images/ParagraphFullJustify.png"></Image>
                 </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="Increase Indent">
-                    <Image Source="Images\ParagraphIncreaseIndentation.png"></Image>
+                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="Increase Indent">
+                    <Image Source="Images/ParagraphIncreaseIndentation.png"></Image>
                 </Button>
-                <Button Style="{StaticResource formatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Decrease Indent">
-                    <Image Source="Images\ParagraphDecreaseIndentation.png"></Image>
+                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Decrease Indent">
+                    <Image Source="Images/ParagraphDecreaseIndentation.png"></Image>
                 </Button>
-
             </ToolBar>
+        </StackPanel>
+            
+            <!-- Main content area -->
+            <Border Grid.Row="2" 
+                    BorderThickness="1"
+                    CornerRadius="0"
+                    BorderBrush="Gray">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height= "0.0225*"/>
+                        <RowDefinition Height= "*"/>
+                        <RowDefinition Height= "0.111*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.33*"/>
+                        <ColumnDefinition Width="0.33*"/>
+                        <ColumnDefinition Width="0.33*"/>
+                    </Grid.ColumnDefinitions>
 
+                    <!-- Top Row-->
+                    <Rectangle Grid.Column="0" Grid.Row="0" Fill="#F5F5F5"/>
+                    <Rectangle Grid.Column="1" Grid.Row="0" Fill="#F5F5F5"/>
+                    <Rectangle Grid.Column="2" Grid.Row="0" Fill="#F5F5F5"/>
+                    
+                    <!-- Left column -->
+                    <Grid Grid.Row="1" Grid.Column="0" Background="#F5F5F5">
+                        <Rectangle/>
+                    </Grid>
 
-        </DockPanel>
+                    <!-- Main document column -->
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <RichTextBox Name="RichTextBox" AcceptsTab="True" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"></RichTextBox>
+                    </Grid>
+                    
+                    <!-- Right column -->
+                    <Grid Grid.Row="1" Grid.Column="2" Background="#F5F5F5">
+                        <Rectangle/>
+                    </Grid>
+                    
+                    <!-- Bottom Row-->
+                    <Rectangle Grid.Column="0" Grid.Row="2" Fill="#F5F5F5"/>
+                    <Rectangle Grid.Column="1" Grid.Row="2" Fill="#F5F5F5"/>
+                    <Rectangle Grid.Column="2" Grid.Row="2" Fill="#F5F5F5"/>
+                </Grid>
+                    
+                
+            </Border>
+        </Grid>
     </Grid>
-
-
 </Window>
