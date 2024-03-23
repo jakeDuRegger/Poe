@@ -11,8 +11,7 @@
         WindowStyle="None" 
         AllowsTransparency="True"
         ResizeMode="CanResize"
-        Background="Transparent"
-        Icon="Images/Icon.ico">
+        Background="Transparent">
     <Window.Resources>
         <Style x:Key="ToolBarStyle" TargetType="{x:Type ToolBar}">
             <Setter Property="Background" Value="#4E4E4E"/>
@@ -31,28 +30,34 @@
 
     
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
         <!-- Custom Title Bar -->
-        <Border Background="#4E4E4E" MouseLeftButtonDown="DragWindowResize">
+        <Border Grid.Row="0"  Background="#4E4E4E" MouseLeftButtonDown="DragWindowResize">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/> <!-- For the icon -->
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Poe" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" Foreground="White" FontSize="16"/>
-                <Button Grid.Column="1" Content="🗕" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,0,0" Click="MinimizeWindow"/>
-                <Button Grid.Column="2" Content="🗖" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,0,0" Click="MaximizeRestoreWindow"/>
-                <Button Grid.Column="3" Content="X" Width="30" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,0,0" Click="CloseWindow"/>
+                <Image Grid.Column="0" Source="Images/icon.ico" Width="16" Height="16" VerticalAlignment="Center" Margin="10, 0 0 0"/>
+                <Button Style="{StaticResource CustomTitleBar}" Grid.Column="1" Content="_" VerticalContentAlignment="Top" Click="MinimizeWindow"/>
+                <Button Style="{StaticResource CustomTitleBar}" Grid.Column="2" Content="🗖" VerticalContentAlignment="Center" Click="MaximizeRestoreWindow"/>
+                <Button Style="{StaticResource CustomTitleBar}" Grid.Column="3" Content="X" VerticalContentAlignment="Center" Click="CloseWindow"/>
             </Grid>
         </Border>
 
 
         <!-- Main content area -->
-        <Grid Margin="0,30,0,0">
+        <Grid Grid.Row="1">
         <!-- Set the styles for the toolbar and RichTextBox -->
             <Grid.Resources>
 
@@ -227,7 +232,19 @@
 
                     <!-- Main document column -->
                     <Grid Grid.Row="1" Grid.Column="1">
-                        <RichTextBox Name="RichTextBox" AcceptsTab="True" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"></RichTextBox>
+                            <RichTextBox Name="MainRtb" 
+                                         AcceptsTab="True" 
+                                         AcceptsReturn="True" 
+                                         VerticalScrollBarVisibility="Auto"
+                                         SpellCheck.IsEnabled="True" 
+                                         Language="en-US">
+                                <RichTextBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Lookup Definition" Click="LookupDefinition_Click"/>
+                                        <MenuItem Header="Lookup Synonyms" Click="LookupSynonyms_Click"/>
+                                    </ContextMenu>
+                                </RichTextBox.ContextMenu>
+                            </RichTextBox>
                     </Grid>
                     
                     <!-- Right column -->

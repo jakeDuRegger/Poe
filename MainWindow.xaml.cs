@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Poe.API;
 
 namespace Poe;
 
@@ -16,6 +17,8 @@ namespace Poe;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private readonly MerriamWebsterAPI _mwApi = new MerriamWebsterAPI();
+
     public MainWindow()
     {
         InitializeComponent();
@@ -65,5 +68,59 @@ public partial class MainWindow : Window
     }
 
 
+    // todo Add spellchecking turn on / off settings
     
+    
+    // Todo add the Meriam Webster API functionality
+    // Context menu selection (Lookup synonyms) and (Lookup definition).
+    private async void LookupDefinition(string word)
+    {
+        // Make sure lookup is case insensitive
+        word = word.ToLower();
+        var definitions = await _mwApi.GetDictionaryDefinition(word);
+
+        if (definitions.Length <= 0)
+        {
+            MessageBox.Show("Error occured");
+        }
+        
+        MessageBox.Show(definitions);
+    }
+
+
+    private async void LookupSynonyms(string word)
+    {
+        // Make sure lookup is case insensitive
+        word = word.ToLower();
+
+        var (synonyms, antonyms) = await _mwApi.GetThesaurus(word);
+
+        if (string.IsNullOrEmpty(synonyms) && string.IsNullOrEmpty(antonyms))
+        {
+            MessageBox.Show("Error occurred");
+        }
+        else
+        {
+            MessageBox.Show($"Synonyms:\n{synonyms}\nAntonyms:\n{antonyms}", "Synonyms and Antonyms");
+        }
+    }
+    // Event handling for context menu selection
+    private void LookupDefinition_Click(object sender, RoutedEventArgs e)
+    {
+        string selectedText = MainRtb.Selection.Text;
+        if (!string.IsNullOrWhiteSpace(selectedText))
+        {
+            LookupDefinition(selectedText);
+        }
+    }
+
+    private void LookupSynonyms_Click(object sender, RoutedEventArgs e)
+    {
+        string selectedText = MainRtb.Selection.Text;
+        if (!string.IsNullOrWhiteSpace(selectedText))
+        {
+            LookupSynonyms(selectedText);
+        }
+    }
+
 }
