@@ -232,7 +232,7 @@
 
                     <!-- Main document column -->
                     <Grid Grid.Row="1" Grid.Column="1">
-                            <RichTextBox Name="MainRtb" 
+                            <RichTextBox Name="MainRtb"  
                                          AcceptsTab="True" 
                                          AcceptsReturn="True" 
                                          VerticalScrollBarVisibility="Auto"

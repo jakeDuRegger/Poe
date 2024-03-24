@@ -122,5 +122,14 @@ public partial class MainWindow : Window
             LookupSynonyms(selectedText);
         }
     }
+    
+    //Todo Create pagination for MainRtb
+    
+    //Todo File Dialog options / Create new file / Open pre existing file / Templating?? -- Maybe use poemDB to help poets?
+    
+    //Todo Rhyme scheme
+    
+    //Todo Fix basic context menu not appearing (cut, copy, paste, etc.)
+    
 
 }
