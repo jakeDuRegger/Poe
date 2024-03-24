@@ -129,7 +129,7 @@ public partial class MainWindow : Window
     
     //Todo Rhyme scheme
     
-    //Todo Fix basic context menu not appearing (cut, copy, paste, etc.)
+
     
 
 }

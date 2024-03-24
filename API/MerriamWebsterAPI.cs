@@ -75,7 +75,7 @@ namespace Poe.API
 
                 // Deserialize JSON to dynamic object
                 dynamic data = JsonConvert.DeserializeObject(json);
-
+                
                 // Initialize StringBuilder for synonyms and antonyms
                 StringBuilder synonyms = new StringBuilder();
                 StringBuilder antonyms = new StringBuilder();

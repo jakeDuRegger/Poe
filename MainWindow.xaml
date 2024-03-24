@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
         xmlns:local="clr-namespace:Poe"
         mc:Ignorable="d"
         Title="Poe" 
@@ -128,80 +129,80 @@
                     />
             </Grid>
             
+            <!-- Toolbar -->
             <StackPanel Name="MainPanel" Grid.Row="1" HorizontalAlignment="Stretch" Background="#4E4E4E">
-            <!-- This tool bar contains all the editing buttons. -->
-            <ToolBar Name="MainToolBar" 
-                     Height="30" 
-                     Background="#4E4E4E" 
-                     HorizontalAlignment="Stretch" 
-                     ToolBarTray.IsLocked="True" 
-                     Loaded="ToolBar_Loaded" 
-                     Style="{StaticResource 
-                     ToolBarStyle}"
-                     Margin="20 0 20 0">
-                <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
-                    <TextBlock Margin="0 ">New</TextBlock>
-                </Button>
-                <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
-                    <TextBlock Margin="0 ">File</TextBlock>
-                </Button>
-                <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut">
-                    <Image Source="Images/EditCut.png"></Image>
-                </Button>
-                <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Copy" ToolTip="Copy">
-                    <Image Source="Images/EditCopy.png"></Image>
-                </Button>
-                <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Paste" ToolTip="Paste">
-                    <Image Source="Images/EditPaste.png"></Image>
-                </Button>
-                <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Undo">
-                    <Image Source="Images/EditUndo.png"></Image>
-                </Button>
-                <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Redo">
-                    <Image Source="Images/EditRedo.png"></Image>
-                </Button>
-                <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
-                    <TextBlock FontWeight="Bold">B</TextBlock>
-                </Button>
-                <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Italic">
-                    <TextBlock FontStyle="Italic" FontWeight="Bold">I</TextBlock>
-                </Button>
-                <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Underline">
-                    <TextBlock TextDecorations="Underline" FontWeight="Bold">U</TextBlock>
-                </Button>
-                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font">
-                    <Image Source="Images/CharacterGrowFont.png"></Image>
-                </Button>
-                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Shrink Font">
-                    <Image Source="Images/CharacterShrinkFont.png"></Image>
-                </Button>
+                <!-- This tool bar contains all the editing buttons. -->
+                <ToolBar Name="MainToolBar" 
+                 Height="30" 
+                 Background="#4E4E4E" 
+                 HorizontalAlignment="Stretch" 
+                 ToolBarTray.IsLocked="True" 
+                 Loaded="ToolBar_Loaded" 
+                 Style="{StaticResource ToolBarStyle}"
+                 Margin="20 0 20 0">
+                    <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
+                        <TextBlock Margin="0 ">New</TextBlock>
+                    </Button>
+                    <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
+                        <TextBlock Margin="0 ">File</TextBlock>
+                    </Button>
+                    <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleBold" ToolTip="Bold">
+                        <materialIcons:MaterialIcon Kind="FormatBold" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleItalic" ToolTip="Italic">
+                        <materialIcons:MaterialIcon Kind="FormatItalic" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleUnderline" ToolTip="Underline">
+                        <materialIcons:MaterialIcon Kind="FormatUnderlined" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut">
+                        <materialIcons:MaterialIcon Kind="ContentCut" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Copy" ToolTip="Copy">
+                        <materialIcons:MaterialIcon Kind="ContentCopy" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Paste" ToolTip="Paste">
+                        <materialIcons:MaterialIcon Kind="ContentPaste" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Undo">
+                        <materialIcons:MaterialIcon Kind="Undo" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Redo">
+                        <materialIcons:MaterialIcon Kind="Redo" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.IncreaseFontSize" ToolTip="Grow Font">
+                        <materialIcons:MaterialIcon Kind="FormatSize" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.DecreaseFontSize" ToolTip="Shrink Font">
+                        <materialIcons:MaterialIcon Kind="FormatSize" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Bullets">
+                        <materialIcons:MaterialIcon Kind="FormatListBulleted" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Numbering">
+                        <materialIcons:MaterialIcon Kind="FormatListNumbered" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="Align Left">
+                        <materialIcons:MaterialIcon Kind="FormatAlignLeft" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="Align Center">
+                        <materialIcons:MaterialIcon Kind="FormatAlignCenter" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="Align Right">
+                        <materialIcons:MaterialIcon Kind="FormatAlignRight" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignJustify" ToolTip="Align Justify">
+                        <materialIcons:MaterialIcon Kind="FormatAlignJustify" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="Increase Indent">
+                        <materialIcons:MaterialIcon Kind="FormatIndentIncrease" Width="16" Height="16"/>
+                    </Button>
+                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Decrease Indent">
+                        <materialIcons:MaterialIcon Kind="FormatIndentDecrease" Width="16" Height="16"/>
+                    </Button>
+                </ToolBar>
+            </StackPanel>
 
-                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.ToggleBullets" ToolTip="Bullets">
-                    <Image Source="Images/ListBullets.png"></Image>
-                </Button>
-                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.ToggleNumbering" ToolTip="Numbering">
-                    <Image Source="Images/ListNumbering.png"></Image>
-                </Button>
-                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignLeft" ToolTip="Align Left">
-                    <Image Source="Images/ParagraphLeftJustify.png"></Image>
-                </Button>
-                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignCenter" ToolTip="Align Center">
-                    <Image Source="Images/ParagraphCenterJustify.png"></Image>
-                </Button>
-                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignRight" ToolTip="Align Right">
-                    <Image Source="Images/ParagraphRightJustify.png"></Image>
-                </Button>
-                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignJustify" ToolTip="Align Justify">
-                    <Image Source="Images/ParagraphFullJustify.png"></Image>
-                </Button>
-                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.IncreaseIndentation" ToolTip="Increase Indent">
-                    <Image Source="Images/ParagraphIncreaseIndentation.png"></Image>
-                </Button>
-                <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.DecreaseIndentation" ToolTip="Decrease Indent">
-                    <Image Source="Images/ParagraphDecreaseIndentation.png"></Image>
-                </Button>
-            </ToolBar>
-        </StackPanel>
             
             <!-- Main content area -->
             <Border Grid.Row="2" 
@@ -229,23 +230,48 @@
                     <Grid Grid.Row="1" Grid.Column="0" Background="#F5F5F5">
                         <Rectangle/>
                     </Grid>
-
                     <!-- Main document column -->
                     <Grid Grid.Row="1" Grid.Column="1">
-                            <RichTextBox Name="MainRtb"  
-                                         AcceptsTab="True" 
-                                         AcceptsReturn="True" 
-                                         VerticalScrollBarVisibility="Auto"
-                                         SpellCheck.IsEnabled="True" 
-                                         Language="en-US">
-                                <RichTextBox.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem Header="Lookup Definition" Click="LookupDefinition_Click"/>
-                                        <MenuItem Header="Lookup Synonyms" Click="LookupSynonyms_Click"/>
-                                    </ContextMenu>
-                                </RichTextBox.ContextMenu>
-                            </RichTextBox>
+                        <RichTextBox Name="MainRtb"  
+                                     AcceptsTab="True" 
+                                     AcceptsReturn="True" 
+                                     VerticalScrollBarVisibility="Auto"
+                                     SpellCheck.IsEnabled="True" 
+                                     Language="en-US">
+                            <RichTextBox.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="Cut" Command="ApplicationCommands.Cut">
+                                        <MenuItem.Icon>
+                                            <materialIcons:MaterialIcon Kind="ContentCut" Width="16" Height="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="Copy" Command="ApplicationCommands.Copy">
+                                        <MenuItem.Icon>
+                                            <materialIcons:MaterialIcon Kind="ContentCopy" Width="16" Height="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="Paste" Command="ApplicationCommands.Paste">
+                                        <MenuItem.Icon>
+                                            <materialIcons:MaterialIcon Kind="ContentPaste" Width="16" Height="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <Separator/>
+                                    <MenuItem Header="Find definition" Click="LookupDefinition_Click">
+                                        <MenuItem.Icon>
+                                            <materialIcons:MaterialIcon Kind="Book" Width="16" Height="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                    <MenuItem Header="Find synonyms and antonyms" Click="LookupSynonyms_Click">
+                                        <MenuItem.Icon>
+                                            <materialIcons:MaterialIcon Kind="Bookshelf" Width="16" Height="16"/>
+                                        </MenuItem.Icon>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </RichTextBox.ContextMenu>
+                        </RichTextBox>
                     </Grid>
+
+
                     
                     <!-- Right column -->
                     <Grid Grid.Row="1" Grid.Column="2" Background="#F5F5F5">
