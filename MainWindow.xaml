@@ -57,7 +57,7 @@
                 <Button Style="{StaticResource CustomTitleBarButton}" Grid.Column="2" Click="MinimizeWindow">
                     <materialIcons:MaterialIcon Kind="WindowMinimize" Width="16" Height="16"/>
                 </Button>
-
+                <!-- todo make the maximize / restore be dynamic!!! -->
                 <!-- Maximize/Restore Button -->
                 <Button Style="{StaticResource CustomTitleBarButton}" Grid.Column="3" Click="MaximizeRestoreWindow">
                     <materialIcons:MaterialIcon Kind="WindowRestore" Width="16" Height="16"/>
@@ -276,12 +276,12 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Top Row-->
-                    <Rectangle Grid.Column="0" Grid.Row="0" Fill="#F5F5F5"/>
-                    <Rectangle Grid.Column="1" Grid.Row="0" Fill="#F5F5F5"/>
-                    <Rectangle Grid.Column="2" Grid.Row="0" Fill="#F5F5F5"/>
+                    <Rectangle Grid.Column="0" Grid.Row="0" Fill="#fffcf7"/>
+                    <Rectangle Grid.Column="1" Grid.Row="0" Fill="#fffcf7"/>
+                    <Rectangle Grid.Column="2" Grid.Row="0" Fill="#fffcf7"/>
                     
                     <!-- Left column -->
-                    <Grid Grid.Row="1" Grid.Column="0" Background="#F5F5F5">
+                    <Grid Grid.Row="1" Grid.Column="0" Background="#fffcf7">
                         <Rectangle/>
                     </Grid>
                     <!-- Main document column -->
@@ -292,6 +292,7 @@
                                      VerticalScrollBarVisibility="Auto"
                                      SpellCheck.IsEnabled="True" 
                                      Language="en-US">
+                            <!-- Todo add spellchecking context -->
                             <RichTextBox.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="Cut" Command="ApplicationCommands.Cut">
@@ -332,14 +333,14 @@
 
                     
                     <!-- Right column -->
-                    <Grid Grid.Row="1" Grid.Column="2" Background="#F5F5F5">
+                    <Grid Grid.Row="1" Grid.Column="2" Background="#fffcf7">
                         <Rectangle/>
                     </Grid>
                     
                     <!-- Bottom Row-->
-                    <Rectangle Grid.Column="0" Grid.Row="2" Fill="#F5F5F5"/>
-                    <Rectangle Grid.Column="1" Grid.Row="2" Fill="#F5F5F5"/>
-                    <Rectangle Grid.Column="2" Grid.Row="2" Fill="#F5F5F5"/>
+                    <Rectangle Grid.Column="0" Grid.Row="2" Fill="#fffcf7"/>
+                    <Rectangle Grid.Column="1" Grid.Row="2" Fill="#fffcf7"/>
+                    <Rectangle Grid.Column="2" Grid.Row="2" Fill="#fffcf7"/>
                 </Grid>
                     
                 
