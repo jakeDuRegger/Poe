@@ -41,28 +41,30 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" /> <!-- icon -->
                     <ColumnDefinition Width="*" /> <!-- empty space -->
                     <ColumnDefinition Width="Auto" /> <!-- minimize -->
                     <ColumnDefinition Width="Auto" /> <!-- maximize -->
                     <ColumnDefinition Width="Auto" /> <!-- exit -->
                 </Grid.ColumnDefinitions>
-
-
+                
+                <!-- Icon -->
+                <Image Grid.Column="0" Width="96" Height="96" Source="Images/PoeTransparentBackground.png"/>
                 <!-- Space between icon and functions-->
-                <Rectangle Grid.Column="0"></Rectangle>
+                <Rectangle Grid.Column="1"></Rectangle>
 
                 <!-- Minimize Button -->
-                <Button Style="{StaticResource CustomTitleBarButton}" Grid.Column="1" Click="MinimizeWindow">
+                <Button Style="{StaticResource CustomTitleBarButton}" Grid.Column="2" Click="MinimizeWindow">
                     <materialIcons:MaterialIcon Kind="WindowMinimize" Width="16" Height="16" />
                 </Button>
                 <!-- todo make the maximize / restore be dynamic!!! -->
                 <!-- Maximize/Restore Button -->
-                <Button Style="{StaticResource CustomTitleBarButton}" Grid.Column="2" Click="MaximizeRestoreWindow">
+                <Button Style="{StaticResource CustomTitleBarButton}" Grid.Column="3" Click="MaximizeRestoreWindow" >
                     <materialIcons:MaterialIcon Kind="WindowRestore" Width="16" Height="16" />
                 </Button>
 
                 <!-- Close Button -->
-                <Button Style="{StaticResource CustomTitleBarButton}" Grid.Column="3" Click="CloseWindow">
+                <Button Style="{StaticResource CustomTitleBarButton}" Grid.Column="4" Click="CloseWindow">
                     <materialIcons:MaterialIcon Kind="WindowClose" Width="16" Height="16" />
                 </Button>
             </Grid>
@@ -175,14 +177,13 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Source="Images\Icon.ico" Width="48" Height="48" Margin="20,  0 0 0"/>
-                    <TextBlock Grid.Column="1"
+                    <!--<TextBlock Grid.Column="1"
                                Text="Poe"
                                Margin="5, 15 0, 0"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"
                                Foreground="#333"
-                               FontSize="24" />
+                               FontSize="24" />-->
                 </Grid>
             </Grid>
 
@@ -302,12 +303,13 @@
                                 
 
                                 <!-- Main document column -->
-                                <Grid Grid.Row="1" Grid.Column="1" Height="9.5in">
+                                <Grid Grid.Row="1" Grid.Column="1" MinHeight="9.0in">
                                     <RichTextBox Name="MainRtb"
                                                  AcceptsTab="True"
                                                  AcceptsReturn="True"
                                                  VerticalScrollBarVisibility="Auto"
                                                  SpellCheck.IsEnabled="True"
+                                                 ContextMenuOpening="MainRtb_ContextMenuOpening"
                                                  Language="en-US">
                                         <!-- Todo add spellchecking context -->
                                         <RichTextBox.ContextMenu>
@@ -315,6 +317,11 @@
                                                 <MenuItem Header="Cut" Command="ApplicationCommands.Cut">
                                                     <MenuItem.Icon>
                                                         <materialIcons:MaterialIcon Kind="ContentCut" />
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                                <MenuItem Command="EditingCommands.CorrectSpellingError">
+                                                    <MenuItem.Icon>
+                                                        <materialIcons:MaterialIcon Kind="Check" />
                                                     </MenuItem.Icon>
                                                 </MenuItem>
                                                 <MenuItem Header="Copy" Command="ApplicationCommands.Copy">
@@ -327,11 +334,10 @@
                                                         <materialIcons:MaterialIcon Kind="ContentPaste" />
                                                     </MenuItem.Icon>
                                                 </MenuItem>
-                                                <!-- For some reason this works as a separator -->
+                                                
+                                                <!-- For some reason this works as a separator where separator does not -->
                                                 <MenuItem Height="1" Background="LightGray" />
-                                                <!-- Todo come back to this -->
-                                                <!-- Separator uses toolbar style key to stretch across context menu -->
-                                                <!-- <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}"> -->
+                                                
                                                 <MenuItem Header="Find definition" Click="LookupDefinition_Click">
                                                     <MenuItem.Icon>
                                                         <materialIcons:MaterialIcon Kind="Book" />
@@ -346,6 +352,17 @@
                                             </ContextMenu>
                                         </RichTextBox.ContextMenu>
                                     </RichTextBox>
+                                    <Popup Name="SuggestionsPopup"
+                                           PlacementTarget="{Binding ElementName=MainRtb}"
+                                           Placement="Bottom"
+                                           StaysOpen="False"
+                                           IsOpen="False">
+                                        <ListBox Name="SuggestionsListBox"
+                                                 Background="White"
+                                                 BorderBrush="Black"
+                                                 BorderThickness="1"
+                                                 />
+                                    </Popup>
                                 </Grid>
                             </Grid>
                         </BlockUIContainer>

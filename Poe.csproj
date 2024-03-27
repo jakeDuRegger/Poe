@@ -35,6 +35,9 @@
       <Resource Include="Images\ParagraphRightJustify.png" />
       <None Remove="Images\Icon.ico" />
       <Resource Include="Images\Icon.ico" />
+      <None Remove="Images\Poe.png" />
+      <None Remove="Images\Raven.jpeg" />
+      <Resource Include="Images\Raven.jpeg" />
     </ItemGroup>
 
     <ItemGroup>
@@ -54,6 +57,14 @@
       <PackageReference Include="Material.Icons" Version="2.1.6" />
       <PackageReference Include="Material.Icons.WPF" Version="2.1.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="NHunspell" Version="1.2.5554.16953" />
+      <PackageReference Include="SpellCheck.Dictionaries" Version="1.2.0" />
+      <PackageReference Include="SpellCheck.Simple" Version="1.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Images\PoeTransparentBackground.png" />
+      <Resource Include="Images\PoeTransparentBackground.png" />
     </ItemGroup>
 
 </Project>

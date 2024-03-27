@@ -7,7 +7,7 @@
         <!-- This is the main css file -->
         <Style x:Key="CustomTitleBarButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#FFF0D9"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="HorizontalAlignment" Value="Right"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Margin" Value="0 10 10 0"/>
