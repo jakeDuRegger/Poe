@@ -27,7 +27,7 @@
             </Setter>
         </Style>
     </Window.Resources>
-
+    <!-- Window's Grid -->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" /> <!-- For the title bar and toolbar -->
@@ -47,9 +47,9 @@
                     <ColumnDefinition Width="Auto" /> <!-- maximize -->
                     <ColumnDefinition Width="Auto" /> <!-- exit -->
                 </Grid.ColumnDefinitions>
-                
+
                 <!-- Icon -->
-                <Image Grid.Column="0" Width="96" Height="96" Source="Images/PoeTransparentBackground.png"/>
+                <Image Grid.Column="0" Width="96" Height="96" Source="/Images/PoeTransparentBackground.png" />
                 <!-- Space between icon and functions-->
                 <Rectangle Grid.Column="1"></Rectangle>
 
@@ -59,7 +59,7 @@
                 </Button>
                 <!-- todo make the maximize / restore be dynamic!!! -->
                 <!-- Maximize/Restore Button -->
-                <Button Style="{StaticResource CustomTitleBarButton}" Grid.Column="3" Click="MaximizeRestoreWindow" >
+                <Button Style="{StaticResource CustomTitleBarButton}" Grid.Column="3" Click="MaximizeRestoreWindow">
                     <materialIcons:MaterialIcon Kind="WindowRestore" Width="16" Height="16" />
                 </Button>
 
@@ -164,8 +164,8 @@
 
             <!-- Layout -->
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" /> <!-- Navbar -->
+                <RowDefinition Height="Auto" /> <!-- Titlebar -->
                 <RowDefinition Height="*" /> <!-- Main content -->
             </Grid.RowDefinitions>
 
@@ -174,8 +174,8 @@
             <Grid Grid.Row="0" Background="#FFF0D9">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <!--<TextBlock Grid.Column="1"
                                Text="Poe"
@@ -188,108 +188,129 @@
             </Grid>
 
             <!-- Toolbar -->
-            <StackPanel Name="SpToolBar" Grid.Row="1" HorizontalAlignment="Stretch" Background="#FFF0D9">
-                <!-- This tool bar contains all the editing buttons. -->
-                <!-- TODO 1. Add font type selection for MainRtb. 2. Add drop-down select different types of bullet / numbering 3. Add (crtl + shift + v) functionality -->
-                <ToolBar Name="MainToolBar"
-                         Height="30"
-                         Background="#FFF0D9"
-                         HorizontalAlignment="Stretch"
-                         ToolBarTray.IsLocked="True"
-                         Loaded="ToolBar_Loaded"
-                         Style="{StaticResource ToolBarStyle}"
-                         Margin="20 0 20 0">
-                    <Button Style="{StaticResource FormatTextStyle}" ToolTip="New File">
-                        <TextBlock Margin="0 ">New</TextBlock>
-                    </Button>
-                    <Button Style="{StaticResource FormatTextStyle}" ToolTip="File">
-                        <TextBlock Margin="0 ">File</TextBlock>
-                    </Button>
-                    <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Cut" ToolTip="Cut">
-                        <materialIcons:MaterialIcon Kind="ContentCut" Width="16" Height="16" />
-                    </Button>
-                    <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Copy" ToolTip="Copy">
-                        <materialIcons:MaterialIcon Kind="ContentCopy" Width="16" Height="16" />
-                    </Button>
-                    <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Paste"
-                            ToolTip="Paste">
-                        <materialIcons:MaterialIcon Kind="ContentPaste" Width="16" Height="16" />
-                    </Button>
-                    <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Undo" ToolTip="Undo">
-                        <materialIcons:MaterialIcon Kind="Undo" Width="16" Height="16" />
-                    </Button>
-                    <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Redo" ToolTip="Redo">
-                        <materialIcons:MaterialIcon Kind="Redo" Width="16" Height="16" />
-                    </Button>
-                    <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleBold"
-                            ToolTip="Bold">
-                        <materialIcons:MaterialIcon Kind="FormatBold" Width="16" Height="16" />
-                    </Button>
-                    <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleItalic"
-                            ToolTip="Italic">
-                        <materialIcons:MaterialIcon Kind="FormatItalic" Width="16" Height="16" />
-                    </Button>
-                    <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleUnderline"
-                            ToolTip="Underline">
-                        <materialIcons:MaterialIcon Kind="FormatUnderlined" Width="16" Height="16" />
-                    </Button>
-                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.IncreaseFontSize"
-                            ToolTip="Grow Font">
-                        <materialIcons:MaterialIcon Kind="FormatSize" Width="16" Height="16" />
-                    </Button>
-                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.DecreaseFontSize"
-                            ToolTip="Shrink Font">
-                        <materialIcons:MaterialIcon Kind="FormatSize" Width="16" Height="16" />
-                    </Button>
-                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.ToggleBullets"
-                            ToolTip="Bullets">
-                        <materialIcons:MaterialIcon Kind="FormatListBulleted" Width="16" Height="16" />
-                    </Button>
-                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.ToggleNumbering"
-                            ToolTip="Numbering">
-                        <materialIcons:MaterialIcon Kind="FormatListNumbered" Width="16" Height="16" />
-                    </Button>
-                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignLeft"
-                            ToolTip="Align Left">
-                        <materialIcons:MaterialIcon Kind="FormatAlignLeft" Width="16" Height="16" />
-                    </Button>
-                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignCenter"
-                            ToolTip="Align Center">
-                        <materialIcons:MaterialIcon Kind="FormatAlignCenter" Width="16" Height="16" />
-                    </Button>
-                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignRight"
-                            ToolTip="Align Right">
-                        <materialIcons:MaterialIcon Kind="FormatAlignRight" Width="16" Height="16" />
-                    </Button>
-                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignJustify"
-                            ToolTip="Align Justify">
-                        <materialIcons:MaterialIcon Kind="FormatAlignJustify" Width="16" Height="16" />
-                    </Button>
-                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.IncreaseIndentation"
-                            ToolTip="Increase Indent">
-                        <materialIcons:MaterialIcon Kind="FormatIndentIncrease" Width="16" Height="16" />
-                    </Button>
-                    <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.DecreaseIndentation"
-                            ToolTip="Decrease Indent">
-                        <materialIcons:MaterialIcon Kind="FormatIndentDecrease" Width="16" Height="16" />
-                    </Button>
-                </ToolBar>
-            </StackPanel>
+            <Border Grid.Row="1"
+                    BorderBrush="Gray"
+                    BorderThickness="0 0 0 2"
+                    >
+                <StackPanel Name="SpToolBar" Grid.Row="1" HorizontalAlignment="Stretch" Background="#FFF0D9">
+                    <!-- This tool bar contains all the editing buttons. -->
+                    <!-- TODO 1. Add font type selection for MainRtb. 2. Add drop-down select different types of bullet / numbering 3. Add (crtl + shift + v) functionality -->
+                    <ToolBar Name="MainToolBar"
+                             Height="30"
+                             Background="#FFF0D9"
+                             HorizontalAlignment="Stretch"
+                             ToolBarTray.IsLocked="True"
+                             Loaded="ToolBar_Loaded"
+                             Style="{StaticResource ToolBarStyle}"
+                             Margin="20 0 20 0">
+                        <Button Style="{StaticResource FormatTextStyle}" ToolTip="New File">
+                            <TextBlock Margin="0 ">New</TextBlock>
+                        </Button>
+                        <Button Style="{StaticResource FormatTextStyle}" ToolTip="File">
+                            <TextBlock Margin="0 ">File</TextBlock>
+                        </Button>
+                        <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Cut"
+                                ToolTip="Cut">
+                            <materialIcons:MaterialIcon Kind="ContentCut" Width="16" Height="16" />
+                        </Button>
+                        <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Copy"
+                                ToolTip="Copy">
+                            <materialIcons:MaterialIcon Kind="ContentCopy" Width="16" Height="16" />
+                        </Button>
+                        <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Paste"
+                                ToolTip="Paste">
+                            <materialIcons:MaterialIcon Kind="ContentPaste" Width="16" Height="16" />
+                        </Button>
+                        <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Undo"
+                                ToolTip="Undo">
+                            <materialIcons:MaterialIcon Kind="Undo" Width="16" Height="16" />
+                        </Button>
+                        <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Redo"
+                                ToolTip="Redo">
+                            <materialIcons:MaterialIcon Kind="Redo" Width="16" Height="16" />
+                        </Button>
+                        <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleBold"
+                                ToolTip="Bold">
+                            <materialIcons:MaterialIcon Kind="FormatBold" Width="16" Height="16" />
+                        </Button>
+                        <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleItalic"
+                                ToolTip="Italic">
+                            <materialIcons:MaterialIcon Kind="FormatItalic" Width="16" Height="16" />
+                        </Button>
+                        <Button Style="{StaticResource FormatTextStyle}" Command="EditingCommands.ToggleUnderline"
+                                ToolTip="Underline">
+                            <materialIcons:MaterialIcon Kind="FormatUnderlined" Width="16" Height="16" />
+                        </Button>
+                        <!-- todo make this look good -->
+                        <ComboBox x:Name="FontFamilyComboBox"
+                                  Width="120"
+                                  Margin="5"
+                                  SelectedItem="{Binding ElementName=MainRtb, Path=FontFamily, Mode=TwoWay}"
+                                  SelectionChanged="FontFamilyComboBox_SelectionChanged">
+                            <ComboBox.ItemsSource>
+                                <Binding Source="{x:Static Fonts.SystemFontFamilies}" />
+                            </ComboBox.ItemsSource>
+                        </ComboBox>
+                        <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.IncreaseFontSize"
+                                ToolTip="Grow Font">
+                            <materialIcons:MaterialIcon Kind="FormatSize" Width="16" Height="16" />
+                        </Button>
+                        <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.DecreaseFontSize"
+                                ToolTip="Shrink Font">
+                            <materialIcons:MaterialIcon Kind="FormatSize" Width="16" Height="16" />
+                        </Button>
+                        <!-- Bullets -->
+                        <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.ToggleBullets"
+                                ToolTip="Bullets">
+                            <materialIcons:MaterialIcon Kind="FormatListBulleted" Width="16" Height="16" />
+                        </Button>
+                        <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.ToggleNumbering"
+                                ToolTip="Numbering">
+                            <materialIcons:MaterialIcon Kind="FormatListNumbered" Width="16" Height="16" />
+                        </Button>
+                        <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignLeft"
+                                ToolTip="Align Left">
+                            <materialIcons:MaterialIcon Kind="FormatAlignLeft" Width="16" Height="16" />
+                        </Button>
+                        <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignCenter"
+                                ToolTip="Align Center">
+                            <materialIcons:MaterialIcon Kind="FormatAlignCenter" Width="16" Height="16" />
+                        </Button>
+                        <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignRight"
+                                ToolTip="Align Right">
+                            <materialIcons:MaterialIcon Kind="FormatAlignRight" Width="16" Height="16" />
+                        </Button>
+                        <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.AlignJustify"
+                                ToolTip="Align Justify">
+                            <materialIcons:MaterialIcon Kind="FormatAlignJustify" Width="16" Height="16" />
+                        </Button>
+                        <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.IncreaseIndentation"
+                                ToolTip="Increase Indent">
+                            <materialIcons:MaterialIcon Kind="FormatIndentIncrease" Width="16" Height="16" />
+                        </Button>
+                        <Button Style="{StaticResource FormatImageStyle}" Command="EditingCommands.DecreaseIndentation"
+                                ToolTip="Decrease Indent">
+                            <materialIcons:MaterialIcon Kind="FormatIndentDecrease" Width="16" Height="16" />
+                        </Button>
+                    </ToolBar>
+                </StackPanel>
+            </Border>
 
 
             <!-- Main content area -->
             <Border Grid.Row="2" BorderThickness="1" CornerRadius="0" BorderBrush="Gray">
-                <FlowDocumentScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+                <FlowDocumentScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Focusable="False">
                     <FlowDocument Background="#323230"
-                                  PageHeight="Auto"
-                                  PageWidth="Auto">
+                                  PageHeight="816"  
+                                  PageWidth="Auto"
+                                  Focusable="False">
                         <!-- todo figure out page w/h for printing -->
                         <!-- MinPageHeight="3in" -->
                         <!-- MinPageWidth="5in" -->
                         <!-- MaxPageHeight="11in" -->
                         <!-- MaxPageWidth="8.5in" -->
                         <BlockUIContainer>
-                            <Grid>
+                            <Grid Focusable="False">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="0.0225*" />
                                     <RowDefinition Height="*" />
@@ -297,10 +318,10 @@
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="0.33*" />
-                                    <ColumnDefinition Width="0.50*" />
                                     <ColumnDefinition Width="0.33*" />
+                                    <ColumnDefinition Width="0.42*" />
                                 </Grid.ColumnDefinitions>
-                                
+
 
                                 <!-- Main document column -->
                                 <Grid Grid.Row="1" Grid.Column="1" MinHeight="9.0in">
@@ -308,12 +329,17 @@
                                                  AcceptsTab="True"
                                                  AcceptsReturn="True"
                                                  VerticalScrollBarVisibility="Auto"
-                                                 SpellCheck.IsEnabled="True"
+                                                 FontFamily="Times New Roman"
+                                                 FontSize="12"
+                                                 FontWeight="Normal"
+                                                 FontStyle="Normal"
                                                  ContextMenuOpening="MainRtb_ContextMenuOpening"
+                                                 CommandManager.Executed="RichTextBox_Paste"
+                                                 SpellCheck.IsEnabled="True"
                                                  Language="en-US">
                                         <!-- Todo add spellchecking context -->
                                         <RichTextBox.ContextMenu>
-                                            <ContextMenu>
+                                            <ContextMenu x:Name="MainRtbContextMenu">
                                                 <MenuItem Header="Cut" Command="ApplicationCommands.Cut">
                                                     <MenuItem.Icon>
                                                         <materialIcons:MaterialIcon Kind="ContentCut" />
@@ -334,10 +360,10 @@
                                                         <materialIcons:MaterialIcon Kind="ContentPaste" />
                                                     </MenuItem.Icon>
                                                 </MenuItem>
-                                                
+
                                                 <!-- For some reason this works as a separator where separator does not -->
                                                 <MenuItem Height="1" Background="LightGray" />
-                                                
+
                                                 <MenuItem Header="Find definition" Click="LookupDefinition_Click">
                                                     <MenuItem.Icon>
                                                         <materialIcons:MaterialIcon Kind="Book" />
@@ -349,9 +375,24 @@
                                                         <materialIcons:MaterialIcon Kind="Bookshelf" />
                                                     </MenuItem.Icon>
                                                 </MenuItem>
+                                                <MenuItem Header="Find rhymes"
+                                                          Click="LookupRhymes_Click">
+                                                    <MenuItem.Icon>
+                                                        <materialIcons:MaterialIcon Kind="Library" />
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
                                             </ContextMenu>
                                         </RichTextBox.ContextMenu>
+                                        <RichTextBox.InputBindings>
+                                            <KeyBinding Key="V" Modifiers="Control+Shift"
+                                                        Command="ApplicationCommands.Paste" />
+                                        </RichTextBox.InputBindings>
                                     </RichTextBox>
+                                    <Popup x:Name="InfoPopup" Width="300" Height="50" Placement="Center">
+                                        <Border Background="White" BorderBrush="Black" BorderThickness="1">
+                                            <TextBlock x:Name="PopupText" TextWrapping="Wrap" Margin="10"/>
+                                        </Border>
+                                    </Popup>
                                     <Popup Name="SuggestionsPopup"
                                            PlacementTarget="{Binding ElementName=MainRtb}"
                                            Placement="Bottom"
@@ -360,10 +401,17 @@
                                         <ListBox Name="SuggestionsListBox"
                                                  Background="White"
                                                  BorderBrush="Black"
-                                                 BorderThickness="1"
-                                                 />
+                                                 BorderThickness="1" />
                                     </Popup>
                                 </Grid>
+                                
+                                <!-- Right column for search results -->
+                                    <Frame Grid.Row="1" Grid.Column="2" 
+                                           x:Name="SearchResultsFrame" 
+                                           NavigationUIVisibility="Hidden"
+                                           Margin="50 0 25 0"
+                                           Height="9.0in">
+                                    </Frame>
                             </Grid>
                         </BlockUIContainer>
                     </FlowDocument>

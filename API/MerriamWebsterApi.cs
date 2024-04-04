@@ -9,7 +9,8 @@ using Newtonsoft.Json;
 
 namespace Poe.API
 {
-    public class MerriamWebsterAPI
+    // todo figure out adjectives.
+    public class MerriamWebsterApi
     {
         // Constants for the API keys
         private const string DictionaryApiKey = "25673efd-c1ff-4f0d-a791-81176916ff38";

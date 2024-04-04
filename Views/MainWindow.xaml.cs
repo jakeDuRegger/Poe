@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -11,6 +12,7 @@ using System.Windows.Shapes;
 using Material.Icons;
 using Material.Icons.WPF;
 using Poe.API;
+using Poe.Views;
 using SpellCheck;
 using SpellCheck.Dictionaries;
 
@@ -22,13 +24,20 @@ namespace Poe;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private readonly MerriamWebsterAPI _mwApi = new MerriamWebsterAPI();
     
     public MainWindow()
     {
         InitializeComponent();
     }
+    // Ctrl + Shift + V functionality in MainRtb todo fix this
+    private void RichTextBox_Paste(object sender, ExecutedRoutedEventArgs e)
+    {
+        if (!Clipboard.ContainsText()) return;
+        MainRtb.Selection.Text = Clipboard.GetText(TextDataFormat.Text);
+        e.Handled = true;
+    }
 
+    // Custom context menu in MainRtb
     private void MainRtb_ContextMenuOpening(object sender, ContextMenuEventArgs e)
     {
         int indexCounter = 0;
@@ -144,63 +153,72 @@ public partial class MainWindow : Window
             DragMove();
         }
     }
+    
 
+    
 
     // todo Add spellchecking turn on / off settings
-
-
-    // Todo add the Meriam Webster API functionality
-    // Context menu selection (Lookup synonyms) and (Lookup definition).
-    private async void LookupDefinition(string word)
-    {
-        // Make sure lookup is case insensitive
-        word = word.ToLower();
-        var definitions = await _mwApi.GetDictionaryDefinition(word);
-
-        if (definitions.Length <= 0)
-        {
-            MessageBox.Show("Error occured");
-        }
-
-        MessageBox.Show(definitions);
-    }
-
-
-    private async void LookupSynonyms(string word)
-    {
-        // Make sure lookup is case insensitive
-        word = word.ToLower();
-
-        var (synonyms, antonyms) = await _mwApi.GetThesaurus(word);
-
-        if (string.IsNullOrEmpty(synonyms) && string.IsNullOrEmpty(antonyms))
-        {
-            MessageBox.Show("Error occurred");
-        }
-        else
-        {
-            MessageBox.Show($"Synonyms:\n{synonyms}\nAntonyms:\n{antonyms}", "Synonyms and Antonyms");
-        }
-    }
-
-    // Event handling for context menu selection
+    
+    // Create pop up for showing definitions and synonyms
+    // private void ShowPopup(string message)
+    // {
+    //     PopupText.Text = message;
+    //     InfoPopup.IsOpen = true;
+    // }
+    
+    
+    // New Frame methodology
     private void LookupDefinition_Click(object sender, RoutedEventArgs e)
     {
         string selectedText = MainRtb.Selection.Text;
         if (!string.IsNullOrWhiteSpace(selectedText))
         {
-            LookupDefinition(selectedText);
+            // Navigate to the SearchResultsPage with "definition" as the search type
+            SearchResultsFrame.Navigate(new SearchResultsPage("definition", selectedText));
         }
     }
 
+    
     private void LookupSynonyms_Click(object sender, RoutedEventArgs e)
     {
         string selectedText = MainRtb.Selection.Text;
         if (!string.IsNullOrWhiteSpace(selectedText))
         {
-            LookupSynonyms(selectedText);
+            // Navigate to the SynonymsPage and pass the selected text
+            SearchResultsFrame.Navigate(new SearchResultsPage("synonym", selectedText));
         }
     }
+    
+    private void LookupRhymes_Click(object sender, RoutedEventArgs e)
+    {
+        string selectedText = MainRtb.Selection.Text;
+        if (!string.IsNullOrWhiteSpace(selectedText))
+        {
+            // Navigate to the RhymesPage and pass the selected text
+            SearchResultsFrame.Navigate(new SearchResultsPage("rhyme", selectedText));
+        }
+    }
+
+
+    
+    
+    
+    
+    
+    // Content box font selection!
+    private void FontFamilyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (MainRtb != null && FontFamilyComboBox.SelectedItem is FontFamily fontFamily)
+        {
+            MainRtb.Selection.ApplyPropertyValue(TextElement.FontFamilyProperty, fontFamily);
+        }
+    }
+    // todo Content box for bullets / numbering
+
+
+    
+    
+    
 }
 
 //Todo Create pagination for MainRtb
