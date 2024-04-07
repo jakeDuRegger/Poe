@@ -46,12 +46,16 @@ public partial class MainWindow : Window
         {
             // Remove existing spelling suggestions and "Ignore All" option
             RemoveExistingItems();
+            
             // Get the position of the mouse
             Point mousePosition = Mouse.GetPosition(MainRtb);
 
             // Get the position in the text
             TextPointer position = MainRtb.GetPositionFromPoint(mousePosition, true);
 
+            // Use the helper function to select the word
+            SelectWordAtPosition(position);
+            
             if (position != null)
             {
                 SpellingError error = MainRtb.GetSpellingError(position);
@@ -104,6 +108,42 @@ public partial class MainWindow : Window
             // ignored
         }
     }
+    
+    private void SelectWordAtPosition(TextPointer position)
+    {
+        if (position == null)
+        {
+            return;
+        }
+
+        // Find the start of the word
+        TextPointer start = position;
+        while (start != null && !char.IsWhiteSpace((start.GetTextInRun(LogicalDirection.Backward)).FirstOrDefault()))
+        {
+            start = start.GetNextInsertionPosition(LogicalDirection.Backward);
+            if (start == null || start.GetPointerContext(LogicalDirection.Backward) == TextPointerContext.None)
+            {
+                break;
+            }
+        }
+
+        // Find the end of the word
+        TextPointer end = position;
+        while (end != null && !char.IsWhiteSpace((end.GetTextInRun(LogicalDirection.Forward)).FirstOrDefault()))
+        {
+            end = end.GetNextInsertionPosition(LogicalDirection.Forward);
+            if (end == null || end.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.None)
+            {
+                break;
+            }
+        }
+
+        if (start != null && end != null)
+        {
+            MainRtb.Selection.Select(start, end);
+        }
+    }
+
     
     private void RemoveExistingItems()
     {
@@ -167,7 +207,7 @@ public partial class MainWindow : Window
     // }
     
     
-    // New Frame methodology
+
     private void LookupDefinition_Click(object sender, RoutedEventArgs e)
     {
         string selectedText = MainRtb.Selection.Text;
@@ -177,8 +217,6 @@ public partial class MainWindow : Window
             SearchResultsFrame.Navigate(new SearchResultsPage("definition", selectedText));
         }
     }
-
-    
     private void LookupSynonyms_Click(object sender, RoutedEventArgs e)
     {
         string selectedText = MainRtb.Selection.Text;
@@ -188,7 +226,6 @@ public partial class MainWindow : Window
             SearchResultsFrame.Navigate(new SearchResultsPage("synonym", selectedText));
         }
     }
-    
     private void LookupRhymes_Click(object sender, RoutedEventArgs e)
     {
         string selectedText = MainRtb.Selection.Text;
