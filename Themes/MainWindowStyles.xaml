@@ -1,0 +1,100 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF">
+    <Style x:Key="ToolBarStyle" TargetType="{x:Type ToolBar}">
+        <Setter Property="Background" Value="#FFF0D9" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToolBar}">
+                    <Border Background="{TemplateBinding Background}">
+                        <ToolBarPanel IsItemsHost="True" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Button styles -->
+    <Style TargetType="{x:Type Button}" x:Key="FormatTextStyle">
+        <Setter Property="FontFamily" Value="Roboto"></Setter>
+        <Setter Property="FontWeight" Value="DemiBold"></Setter>
+        <Setter Property="Width" Value="36"></Setter>
+        <Setter Property="FontSize" Value="14"></Setter>
+        <Setter Property="CommandTarget" Value="{Binding ElementName=RichTextBox}"></Setter>
+        <Setter Property="Margin" Value="0"></Setter>
+        <Setter Property="Background" Value="#FFF0D9"></Setter>
+        <Setter Property="Foreground" Value="#191815"></Setter> <!--Color of font-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextElement.FontWeight="DemiBold"
+                                          TextElement.FontFamily="Roboto"
+                                          TextElement.Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#e5d8c3" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="Gray" />
+                        </Trigger>
+                        <!-- Add other triggers as necessary -->
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type Button}" x:Key="FormatImageStyle">
+        <Setter Property="Width" Value="30"></Setter>
+        <Setter Property="CommandTarget" Value="{Binding ElementName=RichTextBox}"></Setter>
+        <Setter Property="Margin" Value="2"></Setter>
+        <Setter Property="Background" Value="#FFF0D9"></Setter>
+        <Setter Property="Foreground" Value="#191815"></Setter> <!--Color of icon-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextElement.FontWeight="DemiBold"
+                                          TextElement.FontFamily="Roboto"
+                                          TextElement.Foreground="{TemplateBinding Foreground}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#e5d8c3" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" Value="Gray" />
+                        </Trigger>
+                        <!-- Add other triggers as necessary -->
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- RichTextBox style -->
+    <Style TargetType="{x:Type RichTextBox}">
+        <Setter Property="Padding" Value="10"></Setter>
+        <Setter Property="Background" Value="#FAFAFA"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+        <Setter Property="BorderBrush" Value="#DDD"></Setter>
+        <Setter Property="SelectionBrush" Value="	#d9e8ff"></Setter>
+        <Setter Property="SelectionOpacity" Value="0.5" />
+    </Style>
+    <!-- ToolBar style -->
+    <Style TargetType="{x:Type ToolBar}">
+        <Setter Property="Background" Value="#FFF0D9"></Setter>
+        <Setter Property="BorderThickness" Value="0"></Setter>
+        <Setter Property="BorderBrush" Value="Transparent"></Setter>
+    </Style>
+</ResourceDictionary>

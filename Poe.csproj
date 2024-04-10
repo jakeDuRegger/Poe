@@ -54,6 +54,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
       <PackageReference Include="Material.Icons" Version="2.1.6" />
       <PackageReference Include="Material.Icons.WPF" Version="2.1.0" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />

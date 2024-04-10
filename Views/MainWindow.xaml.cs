@@ -12,6 +12,7 @@ using System.Windows.Shapes;
 using Material.Icons;
 using Material.Icons.WPF;
 using Poe.API;
+using Poe.ViewModels;
 using Poe.Views;
 using SpellCheck;
 using SpellCheck.Dictionaries;
@@ -28,6 +29,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        this.DataContext = new MainWindowViewModel();
     }
     // Ctrl + Shift + V functionality in MainRtb todo fix this
     private void RichTextBox_Paste(object sender, ExecutedRoutedEventArgs e)
@@ -214,7 +216,7 @@ public partial class MainWindow : Window
         if (!string.IsNullOrWhiteSpace(selectedText))
         {
             // Navigate to the SearchResultsPage with "definition" as the search type
-            SearchResultsFrame.Navigate(new SearchResultsPage("definition", selectedText));
+            SearchResultsFrame.Navigate(new SearchResultsPage("Dictionary", selectedText));
         }
     }
     private void LookupSynonyms_Click(object sender, RoutedEventArgs e)
@@ -223,7 +225,7 @@ public partial class MainWindow : Window
         if (!string.IsNullOrWhiteSpace(selectedText))
         {
             // Navigate to the SynonymsPage and pass the selected text
-            SearchResultsFrame.Navigate(new SearchResultsPage("synonym", selectedText));
+            SearchResultsFrame.Navigate(new SearchResultsPage("Thesaurus", selectedText));
         }
     }
     private void LookupRhymes_Click(object sender, RoutedEventArgs e)
@@ -232,7 +234,7 @@ public partial class MainWindow : Window
         if (!string.IsNullOrWhiteSpace(selectedText))
         {
             // Navigate to the RhymesPage and pass the selected text
-            SearchResultsFrame.Navigate(new SearchResultsPage("rhyme", selectedText));
+            SearchResultsFrame.Navigate(new SearchResultsPage("Rhyming Dictionary", selectedText));
         }
     }
 

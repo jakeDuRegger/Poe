@@ -415,6 +415,9 @@
                             </Grid>
                         </BlockUIContainer>
                     </FlowDocument>
+                    <FlowDocumentScrollViewer.Resources>
+                        <Style TargetType="ScrollBar" BasedOn="{StaticResource MinimalScrollBar}" />
+                    </FlowDocumentScrollViewer.Resources>
                 </FlowDocumentScrollViewer>
             </Border>
         </Grid>

@@ -8,65 +8,13 @@
       mc:Ignorable="d"
       Title="SearchResultsPage" >
     <Page.Resources>
-        <Style x:Key="PageTitleBarButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="SlateGray"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="HorizontalAlignment" Value="Right"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="Margin" Value="0 10 10 0"/>
-            <Setter Property="Height" Value="32"/>
-            <Setter Property="Width" Value="32"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}">
-                            <ContentPresenter
-                                VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#647381"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="Gray"/>
-                            </Trigger>
-                            <!-- Add other triggers as necessary -->
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="SearchTextBoxStyle" TargetType="TextBox">
-            <Setter Property="Background" Value="#a9b2bc"></Setter>
-            <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <ScrollViewer x:Name="PART_ContentHost" Grid.Column="0" />
-                                <Button Grid.Column="1"
-                                        Style="{StaticResource PageTitleBarButton}"
-                                        Click="SearchButton_Click"
-                                        Background="Transparent"
-                                        Margin="0,0,0,0">
-                                    <wpf:MaterialIcon Kind="Search" Width="16" Height="16" />
-                                </Button>
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/CommonStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Page.Resources>
-    <Grid Background="FloralWhite" x:Name="PageGrid">
+    <Grid Background="FloralWhite" x:Name="PageGrid" Visibility="{Binding PageGridVisibility}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" /> <!-- For the title bar and toolbar -->
             <RowDefinition Height="*" />   <!-- For the main content area -->
@@ -91,7 +39,7 @@
                 <!-- Title -->
                 <TextBlock Grid.Column="1"
                            x:Name="TitleTextBlock"
-                           Text=""
+                           Text="{Binding Title}"
                            VerticalAlignment="Center"
                            FontFamily="Times New Roman"
                            Foreground="Black"
@@ -115,6 +63,7 @@
                     </Grid.RowDefinitions>
                     <TextBox x:Name="SearchTextBox"
                              Style="{StaticResource SearchTextBoxStyle}"
+                             Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"
                              VerticalAlignment="Center"
                              FontFamily="Times New Roman"
                              Foreground="Black"
@@ -138,7 +87,7 @@
                                   Document="{Binding SearchResultFlowDocument}">
             <!-- Content is added dynamically from code-behind -->
             <FlowDocumentScrollViewer.Resources>
-                <Style TargetType="ScrollBar" BasedOn="{StaticResource CustomScrollBarStyle}" />
+                <Style TargetType="ScrollBar" BasedOn="{StaticResource MinimalScrollBar}" />
             </FlowDocumentScrollViewer.Resources>
         </FlowDocumentScrollViewer>
 
