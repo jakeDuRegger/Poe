@@ -19,7 +19,7 @@ public partial class SearchResultsViewModel : ObservableObject
     private readonly DataMuse _dataMuse = new DataMuse();
 
     [ObservableProperty]
-    private Visibility _pageGridVisibility = Visibility.Collapsed;
+    private Visibility _pageBorderVisibility = Visibility.Collapsed;
 
     [ObservableProperty]
     private FlowDocument _searchResultFlowDocument = new();
@@ -63,7 +63,7 @@ public partial class SearchResultsViewModel : ObservableObject
     private async Task LoadResults(string searchType,string searchTerm)
     {
         // Make sure its visible.
-        PageGridVisibility = Visibility.Visible;
+        PageBorderVisibility = Visibility.Visible;
 
         // Clear existing content
         SearchResultFlowDocument.Blocks.Clear();
@@ -101,7 +101,9 @@ public partial class SearchResultsViewModel : ObservableObject
                     {
                         SearchResultFlowDocument.Blocks.Add(new Paragraph(new Run(definition)));
                         // Add a separator after the definition
-                        SearchResultFlowDocument.Blocks.Add(new BlockUIContainer(new Separator()));
+                        Separator separator = new Separator();
+                        separator.MaxWidth = SearchResultFlowDocument.Parent is FrameworkElement parent ? parent.ActualWidth * 0.75 : double.NaN;
+                        SearchResultFlowDocument.Blocks.Add(new BlockUIContainer(separator));
                     }
                 }
                 else

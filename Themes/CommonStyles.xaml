@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:wpf="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF">
     <Style x:Key="PageTitleBarButton" TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="SlateGray" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="HorizontalAlignment" Value="Right" />
         <Setter Property="BorderBrush" Value="Transparent" />
@@ -19,19 +19,18 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Background" Value="#647381" />
+                            <Setter Property="Background" Value="FloralWhite" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" Value="Gray" />
                         </Trigger>
-                        <!-- Add other triggers as necessary -->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
     <Style x:Key="SearchTextBoxStyle" TargetType="TextBox">
-        <Setter Property="Background" Value="#a9b2bc"></Setter>
+        <Setter Property="Background" Value="FloralWhite"></Setter>
         <Setter Property="VerticalAlignment" Value="Bottom"></Setter>
         <Setter Property="Template">
             <Setter.Value>
@@ -73,6 +72,8 @@
                       ShadowDepth="5"
                       BlurRadius="15"
                       Opacity="0.3" />
-    <ImageSource x:Key="PageBorderBackground"
-                 />
+    <Style x:Key="NoEffect" TargetType="FrameworkElement" >
+        <Setter Property="Effect" Value="{x:Null}" />
+    </Style>
+
 </ResourceDictionary>

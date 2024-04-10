@@ -327,7 +327,10 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="0.33*" />
                                     <ColumnDefinition Width="0.33*" />
-                                    <ColumnDefinition Width="0.42*" />
+                                    <!-- Main document column -->
+                                    <ColumnDefinition Width="0.010*" /> <!-- Left margin for Frame -->
+                                    <ColumnDefinition Width="0.31*" /> <!-- Frame -->
+                                    <ColumnDefinition Width="0.015*" /> <!-- Right margin for Frame -->                                
                                 </Grid.ColumnDefinitions>
 
 
@@ -414,11 +417,10 @@
                                 </Grid>
                                 
                                 <!-- Right column for search results -->
-                                    <Frame Grid.Row="1" Grid.Column="2" 
+                                    <Frame Grid.Row="1" Grid.Column="3" 
                                            x:Name="SearchResultsFrame" 
                                            NavigationUIVisibility="Hidden"
-                                           Margin="100 0 75 0"
-                                           Height="9.0in">
+                                           MaxHeight="9.0in">
                                     </Frame>
                             </Grid>
                         </BlockUIContainer>

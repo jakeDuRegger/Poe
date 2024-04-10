@@ -34,9 +34,9 @@ public partial class SearchResultsPage : Page
     private void ClosePage(object sender, RoutedEventArgs e)
     {
         // Collapses the page
-        if (PageGrid.Visibility == Visibility.Visible)
+        if (PageBorder.Visibility == Visibility.Visible)
         {
-            PageGrid.Visibility = Visibility.Collapsed;
+            PageBorder.Visibility = Visibility.Collapsed;
         }
     }
 }

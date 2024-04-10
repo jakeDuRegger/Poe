@@ -17,8 +17,8 @@
     </Page.Resources>
 
     <!-- Add a Border with DropShadowEffect around the entire content -->
-    <Border Effect="{StaticResource ShadowEffect}" CornerRadius="25" Background="FloralWhite" BorderThickness="10">
-        <Grid x:Name="PageGrid" Visibility="{Binding PageGridVisibility}">
+    <Border Effect="{StaticResource ShadowEffect}" CornerRadius="25" BorderThickness="10" x:Name="PageBorder" Background="FloralWhite" Visibility="{Binding PageGridVisibility}">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" /> <!-- For the title bar and toolbar -->
                 <RowDefinition Height="*" />   <!-- For the main content area -->
@@ -26,7 +26,7 @@
 
             <!-- Custom Title Bar -->
             <Border Grid.Row="0" CornerRadius="25 25 0 0" BorderBrush="Gray">
-                <Border BorderBrush="LightGray" BorderThickness="0 0  0 5">
+                <Border BorderBrush="Transparent" BorderThickness="0 0  0 5"  Effect="{StaticResource ShadowEffect}">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -41,7 +41,7 @@
 
                         <!-- Icon -->
                         <Image Grid.Row="0" Grid.Column="0" Width="96" Height="96"
-                               Source="/Images/PoeTransparentBackground.png" />
+                               Source="/Images/PoeTransparentBackground.png"/>
 
                         <!-- Title -->
                         <TextBlock Grid.Row="0" Grid.Column="1"
