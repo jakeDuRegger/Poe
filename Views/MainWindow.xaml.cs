@@ -14,8 +14,6 @@ using Material.Icons.WPF;
 using Poe.API;
 using Poe.ViewModels;
 using Poe.Views;
-using SpellCheck;
-using SpellCheck.Dictionaries;
 
 
 namespace Poe;

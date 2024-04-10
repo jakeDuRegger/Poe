@@ -38,7 +38,8 @@
                 <ControlTemplate TargetType="TextBox">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Effect="{DynamicResource MaterialDesignShadowDepth2}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -49,7 +50,8 @@
                                     Style="{StaticResource PageTitleBarButton}"
                                     Command="{Binding SearchCommand}"
                                     Background="Transparent"
-                                    Margin="0,0,0,0">
+                                    Margin="0,0,0,0"
+                                    Cursor="Hand">
                                 <wpf:MaterialIcon Kind="Search" Width="16" Height="16" />
                             </Button>
                         </Grid>
@@ -57,5 +59,20 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <!-- Additional setters for the TextBox itself -->
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="Gray" Direction="0" ShadowDepth="5" BlurRadius="10" Opacity="0.5" />
+            </Setter.Value>
+        </Setter>
     </Style>
+    <!-- Page's shadow -->
+    <DropShadowEffect x:Key="ShadowEffect"
+                      Color="Gray"
+                      Direction="320"
+                      ShadowDepth="5"
+                      BlurRadius="15"
+                      Opacity="0.3" />
+    <ImageSource x:Key="PageBorderBackground"
+                 />
 </ResourceDictionary>

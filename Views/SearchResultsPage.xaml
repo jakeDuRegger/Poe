@@ -3,93 +3,100 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:Poe.Views"
+      xmlns:local="clr-namespace:Poe.ViewModels"
       xmlns:wpf="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+      d:DataContext="{d:DesignInstance local:SearchResultsViewModel, IsDesignTimeCreatable=True}"
       mc:Ignorable="d"
-      Title="SearchResultsPage" >
+      Title="SearchResultsPage">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Themes/CommonStyles.xaml"/>
+                <ResourceDictionary Source="/Themes/CommonStyles.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid Background="FloralWhite" x:Name="PageGrid" Visibility="{Binding PageGridVisibility}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" /> <!-- For the title bar and toolbar -->
-            <RowDefinition Height="*" />   <!-- For the main content area -->
-        </Grid.RowDefinitions>
 
-        <!-- Custom Title Bar -->
-        <Border Grid.Row="0" Background="SlateGray">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" /> <!-- icon -->
-                    <ColumnDefinition Width="Auto" /> <!-- title -->
-                    <ColumnDefinition Width="*" /> <!-- placeholder for search bar -->
-                    <ColumnDefinition Width="Auto" /> <!-- exit -->
-                </Grid.ColumnDefinitions>
+    <!-- Add a Border with DropShadowEffect around the entire content -->
+    <Border Effect="{StaticResource ShadowEffect}" CornerRadius="25" Background="FloralWhite" BorderThickness="10">
+        <Grid x:Name="PageGrid" Visibility="{Binding PageGridVisibility}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" /> <!-- For the title bar and toolbar -->
+                <RowDefinition Height="*" />   <!-- For the main content area -->
+            </Grid.RowDefinitions>
 
-                <!-- Icon -->
-                <Image Grid.Column="0" Width="96" Height="96" Source="/Images/PoeTransparentBackground.png" />
-                
-                <!-- Title -->
-                <TextBlock Grid.Column="1"
-                           x:Name="TitleTextBlock"
-                           Text="{Binding Title}"
-                           VerticalAlignment="Center"
-                           FontFamily="Times New Roman"
-                           Foreground="Black"
-                           FontSize="18"
-                           Margin="10,0"/>
-                
-                
-                <!-- todo Create search bar for particular dictionary / thesaurus  -->
-                <!-- Placeholder for search bar in future-->
-                <!-- Search Bar -->
-                <Grid Grid.Column="2" 
-                      HorizontalAlignment="Stretch" 
-                      VerticalAlignment="Center"
-                      Margin="20 0 20 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <TextBox x:Name="SearchTextBox"
-                             Style="{StaticResource SearchTextBoxStyle}"
-                             Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"
-                             VerticalAlignment="Center"
-                             FontFamily="Times New Roman"
-                             Foreground="Black"
-                             FontSize="16"
-                             Padding="5"
-                             MinWidth="200"
-                             KeyDown="SearchTextBox_KeyDown" />
-                </Grid>
+            <!-- Custom Title Bar -->
+            <Border Grid.Row="0" CornerRadius="25 25 0 0" BorderBrush="Gray">
+                <Border BorderBrush="LightGray" BorderThickness="0 0  0 5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" /> <!-- icon -->
+                            <ColumnDefinition Width="Auto" /> <!-- title -->
+                            <ColumnDefinition Width="*" /> <!-- placeholder for search bar -->
+                            <ColumnDefinition Width="Auto" /> <!-- exit -->
+                        </Grid.ColumnDefinitions>
 
-                <!-- Close Button -->
-                <Button Style="{StaticResource PageTitleBarButton}" Grid.Column="3" Click="ClosePage">
-                    <wpf:MaterialIcon Kind="WindowClose" Width="16" Height="16" />
-                </Button>
-            </Grid>
-        </Border>
-        <!-- Content Area with FlowDocument for multi-column text -->
-        <FlowDocumentScrollViewer Grid.Row="1" 
-                                  x:Name="PageFlowDocumentScrollViewer"
-                                  VerticalScrollBarVisibility="Auto" 
-                                  Padding="20"
-                                  Document="{Binding SearchResultFlowDocument}">
-            <!-- Content is added dynamically from code-behind -->
-            <FlowDocumentScrollViewer.Resources>
-                <Style TargetType="ScrollBar" BasedOn="{StaticResource MinimalScrollBar}" />
-            </FlowDocumentScrollViewer.Resources>
-        </FlowDocumentScrollViewer>
+                        <!-- Icon -->
+                        <Image Grid.Row="0" Grid.Column="0" Width="96" Height="96"
+                               Source="/Images/PoeTransparentBackground.png" />
 
-    </Grid>
+                        <!-- Title -->
+                        <TextBlock Grid.Row="0" Grid.Column="1"
+                                   x:Name="TitleTextBlock"
+                                   Text="{Binding Title}"
+                                   VerticalAlignment="Center"
+                                   FontFamily="Times New Roman"
+                                   Foreground="Black"
+                                   FontSize="18"
+                                   Margin="10,0" />
+
+                        <!-- Search Bar -->
+                        <Grid Grid.Row="0" Grid.Column="2"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Center"
+                              Margin="20 0 20 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBox x:Name="SearchTextBox"
+                                     Style="{StaticResource SearchTextBoxStyle}"
+                                     Text="{Binding SearchTerm, UpdateSourceTrigger=PropertyChanged}"
+                                     VerticalAlignment="Center"
+                                     FontFamily="Times New Roman"
+                                     Foreground="Black"
+                                     FontSize="16"
+                                     Padding="5"
+                                     MinWidth="200"
+                                     KeyDown="SearchTextBox_KeyDown" />
+                        </Grid>
+
+                        <!-- Close Button -->
+                        <Button Style="{StaticResource PageTitleBarButton}" Grid.Row="0" Grid.Column="3"
+                                Click="ClosePage">
+                            <wpf:MaterialIcon Kind="WindowClose" Width="16" Height="16" />
+                        </Button>
+                    </Grid>
+                </Border>
+            </Border>
+            <!-- Content Area with FlowDocument for multi-column text -->
+            <FlowDocumentScrollViewer Grid.Row="1"
+                                      x:Name="PageFlowDocumentScrollViewer"
+                                      VerticalScrollBarVisibility="Auto"
+                                      Padding="20"
+                                      Document="{Binding SearchResultFlowDocument}">
+                <!-- Content is added dynamically from code-behind -->
+                <FlowDocumentScrollViewer.Resources>
+                    <Style TargetType="ScrollBar" BasedOn="{StaticResource PageMinimalScrollBar}" />
+                </FlowDocumentScrollViewer.Resources>
+            </FlowDocumentScrollViewer>
+
+        </Grid>
+    </Border>
 </Page>

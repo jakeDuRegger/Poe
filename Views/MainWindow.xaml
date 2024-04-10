@@ -11,8 +11,15 @@
         Width="800"
         WindowStyle="None"
         AllowsTransparency="True"
-        ResizeMode="CanResize"
-        Background="Transparent">
+        Background="Transparent"
+        ResizeMode="CanResizeWithGrip"
+        >
+    <!-- This is the best thing I have ever found -->
+    <!-- Three flipping hours spent on trying to get resized to work just for two lines of code... -->
+    <!-- https://learn.microsoft.com/en-us/answers/questions/644595/mouse-resizng-not-working-when-allowstransparency -->
+    <WindowChrome.WindowChrome>
+        <WindowChrome GlassFrameThickness="0,0,0,0" CornerRadius="0" />
+    </WindowChrome.WindowChrome>
     <Window.Resources>
         <Style x:Key="ToolBarStyle" TargetType="{x:Type ToolBar}">
             <Setter Property="Background" Value="#FFF0D9" />
@@ -26,6 +33,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
     </Window.Resources>
     <!-- Window's Grid -->
     <Grid>
@@ -416,7 +424,7 @@
                         </BlockUIContainer>
                     </FlowDocument>
                     <FlowDocumentScrollViewer.Resources>
-                        <Style TargetType="ScrollBar" BasedOn="{StaticResource MinimalScrollBar}" />
+                        <Style TargetType="ScrollBar" BasedOn="{StaticResource MainMinimalScrollBar}" />
                     </FlowDocumentScrollViewer.Resources>
                 </FlowDocumentScrollViewer>
             </Border>

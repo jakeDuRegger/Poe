@@ -2,7 +2,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using WeCantSpell.Hunspell;
 
 namespace Poe.API;
 
