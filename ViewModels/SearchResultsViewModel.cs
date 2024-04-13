@@ -12,7 +12,6 @@ using Poe.API;
 
 namespace Poe.ViewModels;
 
-// SearchResultsViewModel.cs
 public partial class SearchResultsViewModel : ObservableObject
 {
     private readonly MerriamWebsterApi _mwApi = new MerriamWebsterApi();
@@ -67,7 +66,9 @@ public partial class SearchResultsViewModel : ObservableObject
 
         // Clear existing content
         SearchResultFlowDocument.Blocks.Clear();
-
+        
+        //Todo: 
+        
         switch (searchType)
         {
             case "Dictionary":

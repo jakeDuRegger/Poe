@@ -27,9 +27,10 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        this.DataContext = new MainWindowViewModel();
+        DataContext = new MainWindowViewModel();
     }
-    // Ctrl + Shift + V functionality in MainRtb todo fix this
+    
+        // Ctrl + Shift + V functionality in MainRtb todo fix this
     private void RichTextBox_Paste(object sender, ExecutedRoutedEventArgs e)
     {
         if (!Clipboard.ContainsText()) return;
@@ -109,6 +110,7 @@ public partial class MainWindow : Window
         }
     }
     
+    // todo figure this out bc doesn't work rn
     private void SelectWordAtPosition(TextPointer position)
     {
         if (position == null)
@@ -144,7 +146,9 @@ public partial class MainWindow : Window
         }
     }
 
-    
+    /**
+     * Removes the existing items from context menu list of the document.
+     */
     private void RemoveExistingItems()
     {
         for (int i = MainRtb.ContextMenu.Items.Count - 1; i >= 0; i--)
@@ -155,8 +159,8 @@ public partial class MainWindow : Window
             }
         }
     }
-    // Tool Bar load in.
-
+    
+    // Tool Bar load in. todo figure out and document why we need this
     private void ToolBar_Loaded(object sender, RoutedEventArgs e)
     {
         ToolBar toolBar = sender as ToolBar;
@@ -167,6 +171,7 @@ public partial class MainWindow : Window
         }
     }
 
+    // All of these below can stay here in xaml.cs
     private void CloseWindow(object sender, RoutedEventArgs e)
     {
         Close();
@@ -193,21 +198,9 @@ public partial class MainWindow : Window
             DragMove();
         }
     }
-    
-
-    
 
     // todo Add spellchecking turn on / off settings
     
-    // Create pop up for showing definitions and synonyms
-    // private void ShowPopup(string message)
-    // {
-    //     PopupText.Text = message;
-    //     InfoPopup.IsOpen = true;
-    // }
-    
-    
-
     private void LookupDefinition_Click(object sender, RoutedEventArgs e)
     {
         string selectedText = MainRtb.Selection.Text;
@@ -235,12 +228,6 @@ public partial class MainWindow : Window
             SearchResultsFrame.Navigate(new SearchResultsPage("Rhyming Dictionary", selectedText));
         }
     }
-
-
-    
-    
-    
-    
     
     // Content box font selection!
     private void FontFamilyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -250,19 +237,15 @@ public partial class MainWindow : Window
             MainRtb.Selection.ApplyPropertyValue(TextElement.FontFamilyProperty, fontFamily);
         }
     }
+    
     // todo Content box for bullets / numbering
 
 
-    
-    
+    //Todo File Dialog options / Create new file / Open pre existing file / Templating?? 
+
     
 }
-
-//Todo Create pagination for MainRtb
     
-    //Todo File Dialog options / Create new file / Open pre existing file / Templating?? -- Maybe use poemDB to help poets?
-    
-    //Todo Rhyme scheme
 
 
 
