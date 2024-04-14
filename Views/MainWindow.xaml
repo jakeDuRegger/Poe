@@ -328,7 +328,7 @@
                                     <ColumnDefinition Width="0.33*" />
                                     <ColumnDefinition Width="0.33*" />
                                     <!-- Main document column -->
-                                    <ColumnDefinition Width="0.010*" /> <!-- Left margin for Frame -->
+                                    <ColumnDefinition Width="0.015*" /> <!-- Left margin for Frame -->
                                     <ColumnDefinition Width="0.31*" /> <!-- Frame -->
                                     <ColumnDefinition Width="0.015*" /> <!-- Right margin for Frame -->                                
                                 </Grid.ColumnDefinitions>
@@ -371,25 +371,32 @@
                                                         <materialIcons:MaterialIcon Kind="ContentPaste" />
                                                     </MenuItem.Icon>
                                                 </MenuItem>
-
+                                                
                                                 <!-- For some reason this works as a separator where separator does not -->
                                                 <MenuItem Height="1" Background="LightGray" />
-
-                                                <MenuItem Header="Find definition" Click="LookupDefinition_Click">
+                                                
+                                                <MenuItem Header="{Binding DocumentVM.FormattedSelectedWordDefinition}" 
+                                                          Click="LookupDefinition_Click">
                                                     <MenuItem.Icon>
                                                         <materialIcons:MaterialIcon Kind="Book" />
                                                     </MenuItem.Icon>
                                                 </MenuItem>
-                                                <MenuItem Header="Find synonyms and antonyms"
+                                                <MenuItem Header="{Binding DocumentVM.FormattedSelectedWordThesaurus}"
                                                           Click="LookupSynonyms_Click">
                                                     <MenuItem.Icon>
                                                         <materialIcons:MaterialIcon Kind="Bookshelf" />
                                                     </MenuItem.Icon>
                                                 </MenuItem>
-                                                <MenuItem Header="Find rhymes"
+                                                <MenuItem Header="{Binding DocumentVM.FormattedSelectedWordRhyme}"
                                                           Click="LookupRhymes_Click">
                                                     <MenuItem.Icon>
                                                         <materialIcons:MaterialIcon Kind="Library" />
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                                <MenuItem Header="Bookmark"
+                                                          >
+                                                    <MenuItem.Icon>
+                                                        <materialIcons:MaterialIcon Kind="Bookmark" />
                                                     </MenuItem.Icon>
                                                 </MenuItem>
                                             </ContextMenu>

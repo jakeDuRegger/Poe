@@ -15,6 +15,52 @@ namespace Poe.ViewModels;
 
 public class MainWindowViewModel : ObservableObject
 {
-   
+    public DocumentViewModel DocumentVM { get; }
+    
+    // Define an event for navigation
+    public event Action<string, string> RequestNavigation;
 
+    public MainWindowViewModel()
+    {
+        DocumentVM = new DocumentViewModel();
+    }
+    
+    // Method to get the current selected word from the DocumentViewModel
+    private string GetCurrentSelectedWord()
+    {
+        return DocumentVM.SelectedWord;
+    }
+    
+    private void OnRequestNavigation(string pageType, string word)
+    {
+        RequestNavigation?.Invoke(pageType, word);
+    }
+    
+    public void GetDefinitionForView()
+    {
+        string word = DocumentVM.SelectedWord;
+        if (!string.IsNullOrWhiteSpace(word))
+        {
+            OnRequestNavigation("Dictionary", word);
+        }
+    }
+
+    public void GetThesaurusForView()
+    {
+        string word = DocumentVM.SelectedWord;
+        if (!string.IsNullOrWhiteSpace(word))
+        {
+            OnRequestNavigation("Thesaurus", word);
+        }
+    }
+
+    public void GetRhymeForView()
+    {
+        string word = DocumentVM.SelectedWord;
+        if (!string.IsNullOrWhiteSpace(word))
+        {
+            OnRequestNavigation("Rhyming Dictionary", word);
+        }
+    }
+    
 }

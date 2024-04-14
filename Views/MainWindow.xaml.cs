@@ -27,7 +27,11 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        DataContext = new MainWindowViewModel();
+        var vm = new MainWindowViewModel();
+        DataContext = vm;
+
+        // Subscribe to the navigation request event
+        vm.RequestNavigation += HandleNavigationRequest;
     }
     
         // Ctrl + Shift + V functionality in MainRtb todo fix this
@@ -43,8 +47,7 @@ public partial class MainWindow : Window
     {
         int indexCounter = 0;
         // Clear any previous spelling suggestions
-        try
-        {
+
             // Remove existing spelling suggestions and "Ignore All" option
             RemoveExistingItems();
             
@@ -52,14 +55,22 @@ public partial class MainWindow : Window
             Point mousePosition = Mouse.GetPosition(MainRtb);
 
             // Get the position in the text
-            TextPointer position = MainRtb.GetPositionFromPoint(mousePosition, true);
+            TextPointer? position = MainRtb.GetPositionFromPoint(mousePosition, true);
 
-            // Use the helper function to select the word
-            SelectWordAtPosition(position);
-            
+            // Get the word at the caret or the selected word
+            string? word = GetWordAtPosition(MainRtb) ?? string.Empty; // Ensure word is not null
+
+            if (DataContext is not MainWindowViewModel viewModel)
+            {
+            }
+            else
+            {
+                viewModel.DocumentVM.SelectedWord = word; // Correctly set the selected word
+            }
+
             if (position != null)
             {
-                SpellingError error = MainRtb.GetSpellingError(position);
+                SpellingError? error = MainRtb.GetSpellingError(position);
                 if (error != null)
                 {
                     // Add suggestions to the context menu
@@ -77,87 +88,117 @@ public partial class MainWindow : Window
                         {
                             Kind = MaterialIconKind.Spellcheck
                         };
-                        MainRtb.ContextMenu.Items.Insert(0, menuItem); // Insert at the beginning
-                        
+                        if (MainRtb.ContextMenu != null)
+                            MainRtb.ContextMenu.Items.Insert(0, menuItem); // Insert at the beginning
+
                         indexCounter++;
                     }
                     
                     // Add a menu item gray and height of one.
-                    MainRtb.ContextMenu.Items.Insert(indexCounter, new MenuItem
+                    if (MainRtb.ContextMenu != null)
                     {
-                        Height = 1,
-                        Name = "separator",
-                        Background = new SolidColorBrush(Colors.LightGray)
-                    });
-                    MenuItem ignoreAllItem = new MenuItem
-                    {
-                        Header = "Ignore All",
-                        Command = EditingCommands.IgnoreSpellingError,
-                        CommandTarget = MainRtb
-                    };
-                    ignoreAllItem.Icon = new MaterialIcon()
-                    {
-                        Kind = MaterialIconKind.NotificationsNone
-                    };
-                    // Add the Ignore All option
-                    MainRtb.ContextMenu.Items.Insert(indexCounter + 1,ignoreAllItem);
+                        MainRtb.ContextMenu.Items.Insert(indexCounter, new MenuItem
+                        {
+                            Height = 1,
+                            Name = "separator",
+                            Background = new SolidColorBrush(Colors.LightGray)
+                        });
+                        MenuItem ignoreAllItem = new MenuItem
+                        {
+                            Header = "Ignore All",
+                            Command = EditingCommands.IgnoreSpellingError,
+                            CommandTarget = MainRtb
+                        };
+                        ignoreAllItem.Icon = new MaterialIcon()
+                        {
+                            Kind = MaterialIconKind.NotificationsNone
+                        };
+                        // Add the Ignore All option
+                        MainRtb.ContextMenu.Items.Insert(indexCounter + 1, ignoreAllItem);
+                    }
                 }
             }
-        }
-        catch
-        {
-            // ignored
-        }
     }
     
-    // todo figure this out bc doesn't work rn
-    private void SelectWordAtPosition(TextPointer position)
+
+    // https://stackoverflow.com/questions/3934422/wpf-richtextbox-get-whole-word-at-current-caret-position
+    /**
+     * I have no idea how this works. F### me.
+     */
+    private string? GetWordAtPosition(RichTextBox richTextBox)
     {
-        if (position == null)
+        TextPointer caretPosition = richTextBox.CaretPosition;
+
+        // Check if the caret is at the start of the document
+        if (caretPosition.CompareTo(richTextBox.Document.ContentStart) == 0)
         {
-            return;
+            // If the caret is at the start, there is no previous word or whitespace
+            return "";
         }
 
-        // Find the start of the word
-        TextPointer start = position;
-        while (start != null && !char.IsWhiteSpace((start.GetTextInRun(LogicalDirection.Backward)).FirstOrDefault()))
+        // Move the caret to the beginning of the word
+        while (caretPosition != null &&
+               (caretPosition.GetPointerContext(LogicalDirection.Backward) == TextPointerContext.Text ||
+                caretPosition.GetPointerContext(LogicalDirection.Backward) == TextPointerContext.None))
         {
-            start = start.GetNextInsertionPosition(LogicalDirection.Backward);
-            if (start == null || start.GetPointerContext(LogicalDirection.Backward) == TextPointerContext.None)
+            string textInRun = caretPosition.GetTextInRun(LogicalDirection.Backward);
+            if (!string.IsNullOrEmpty(textInRun))
             {
+                // Scan the text run for the first whitespace character from the end
+                for (int i = textInRun.Length - 1; i >= 0; i--)
+                {
+                    if (char.IsWhiteSpace(textInRun[i]))
+                    {
+                        // Move the pointer to right after the whitespace
+                        caretPosition = caretPosition.GetPositionAtOffset(-(textInRun.Length - i - 1), LogicalDirection.Backward);
+                        goto FoundStart;
+                    }
+                }
+            } 
+
+            // Move to the next text run if no whitespace found in the current run
+            TextPointer nextPosition = caretPosition.GetNextContextPosition(LogicalDirection.Backward);
+            if (nextPosition != null)
+                caretPosition = nextPosition;
+            else
+                break;  // Exit if no further positions are available (at the start of the document)
+        }
+        FoundStart:
+
+        TextPointer start = caretPosition;
+        
+        
+        // Move the caret to the end of the word
+        while (caretPosition != null && (caretPosition.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.Text ||
+                                         caretPosition.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.None))
+        {
+            string textInRun = caretPosition.GetTextInRun(LogicalDirection.Forward);
+            if (!string.IsNullOrEmpty(textInRun) && char.IsWhiteSpace(textInRun[0]))
                 break;
-            }
+            caretPosition = caretPosition.GetNextInsertionPosition(LogicalDirection.Forward);
         }
 
-        // Find the end of the word
-        TextPointer end = position;
-        while (end != null && !char.IsWhiteSpace((end.GetTextInRun(LogicalDirection.Forward)).FirstOrDefault()))
-        {
-            end = end.GetNextInsertionPosition(LogicalDirection.Forward);
-            if (end == null || end.GetPointerContext(LogicalDirection.Forward) == TextPointerContext.None)
-            {
-                break;
-            }
-        }
+        TextPointer? end = caretPosition;
 
-        if (start != null && end != null)
-        {
-            MainRtb.Selection.Select(start, end);
-        }
+        return new TextRange(start, end).Text;
     }
+
 
     /**
      * Removes the existing items from context menu list of the document.
      */
     private void RemoveExistingItems()
     {
-        for (int i = MainRtb.ContextMenu.Items.Count - 1; i >= 0; i--)
-        {
-            if (MainRtb.ContextMenu.Items[i] is MenuItem menuItem && (menuItem.Command == EditingCommands.CorrectSpellingError || menuItem.Command == EditingCommands.IgnoreSpellingError || menuItem.Name== "separator"))
+        if (MainRtb.ContextMenu != null)
+            for (int i = MainRtb.ContextMenu.Items.Count - 1; i >= 0; i--)
             {
-                MainRtb.ContextMenu.Items.RemoveAt(i);
+                if (MainRtb.ContextMenu.Items[i] is MenuItem menuItem &&
+                    (menuItem.Command == EditingCommands.CorrectSpellingError ||
+                     menuItem.Command == EditingCommands.IgnoreSpellingError || menuItem.Name == "separator"))
+                {
+                    MainRtb.ContextMenu.Items.RemoveAt(i);
+                }
             }
-        }
     }
     
     // Tool Bar load in. todo figure out and document why we need this
@@ -201,13 +242,29 @@ public partial class MainWindow : Window
 
     // todo Add spellchecking turn on / off settings
     
+    
+    /*
+     *  Navigation to look up a word
+     */
+    
+    private void HandleNavigationRequest(string pageType, string word)
+    {
+        // Navigate using your frame
+        SearchResultsFrame.Navigate(new SearchResultsPage(pageType, word));
+    }
+    
     private void LookupDefinition_Click(object sender, RoutedEventArgs e)
     {
         string selectedText = MainRtb.Selection.Text;
         if (!string.IsNullOrWhiteSpace(selectedText))
         {
             // Navigate to the SearchResultsPage with "definition" as the search type
-            SearchResultsFrame.Navigate(new SearchResultsPage("Dictionary", selectedText));
+            HandleNavigationRequest("Dictionary", selectedText);
+        }
+        else if (DataContext is MainWindowViewModel viewModel)
+        {
+            // Use the word at the caret position
+            viewModel.GetDefinitionForView();
         }
     }
     private void LookupSynonyms_Click(object sender, RoutedEventArgs e)
@@ -215,17 +272,26 @@ public partial class MainWindow : Window
         string selectedText = MainRtb.Selection.Text;
         if (!string.IsNullOrWhiteSpace(selectedText))
         {
-            // Navigate to the SynonymsPage and pass the selected text
-            SearchResultsFrame.Navigate(new SearchResultsPage("Thesaurus", selectedText));
+            HandleNavigationRequest("Thesaurus", selectedText);
+        }
+        else if (DataContext is MainWindowViewModel viewModel)
+        {
+            // Use the word at the caret position
+            viewModel.GetThesaurusForView();
         }
     }
+
     private void LookupRhymes_Click(object sender, RoutedEventArgs e)
     {
         string selectedText = MainRtb.Selection.Text;
         if (!string.IsNullOrWhiteSpace(selectedText))
         {
-            // Navigate to the RhymesPage and pass the selected text
-            SearchResultsFrame.Navigate(new SearchResultsPage("Rhyming Dictionary", selectedText));
+            HandleNavigationRequest("Rhyming Dictionary", selectedText);
+        }
+        else if (DataContext is MainWindowViewModel viewModel)
+        {
+            // Use the word at the caret position
+            viewModel.GetRhymeForView();
         }
     }
     
