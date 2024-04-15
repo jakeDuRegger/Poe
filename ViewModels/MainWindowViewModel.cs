@@ -13,7 +13,7 @@ namespace Poe.ViewModels;
 
 
 
-public class MainWindowViewModel : ObservableObject
+public partial class MainWindowViewModel : ObservableObject
 {
     public DocumentViewModel DocumentVM { get; }
     
@@ -62,5 +62,6 @@ public class MainWindowViewModel : ObservableObject
             OnRequestNavigation("Rhyming Dictionary", word);
         }
     }
+    
     
 }

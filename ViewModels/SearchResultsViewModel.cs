@@ -14,7 +14,6 @@ namespace Poe.ViewModels;
 
 public partial class SearchResultsViewModel : ObservableObject
 {
-    private readonly MerriamWebsterApi _mwApi = new MerriamWebsterApi();
     private readonly DataMuse _dataMuse = new DataMuse();
 
     [ObservableProperty]
@@ -66,8 +65,6 @@ public partial class SearchResultsViewModel : ObservableObject
 
         // Clear existing content
         SearchResultFlowDocument.Blocks.Clear();
-        
-        //Todo: 
         
         switch (searchType)
         {

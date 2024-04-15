@@ -308,6 +308,16 @@ public partial class MainWindow : Window
 
 
     //Todo File Dialog options / Create new file / Open pre existing file / Templating?? 
+    private void FileSettingsClick(object sender, RoutedEventArgs e)
+    {
+        Button button = sender as Button;
+        button.ContextMenu.IsEnabled = true;
+        button.ContextMenu.PlacementTarget = button;
+        button.ContextMenu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+        button.ContextMenu.IsOpen = true;
+    }
+
+    
 
     
 }

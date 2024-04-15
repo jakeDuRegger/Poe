@@ -1,4 +1,8 @@
+
+using System.IO;
+using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
+
 
 
 namespace Poe.Models.Document;
@@ -7,46 +11,51 @@ namespace Poe.Models.Document;
  * Model of document which includes pages, bookmarks, sticky notes, and user functionality
  * such as saving, loading, and printing documents.
  */
-public class Document : ObservableObject
+public partial class Document : ObservableObject
 {
+    [ObservableProperty] 
+    private string _content;
+    
+    [ObservableProperty]
+    private string currentFilePath;
+
+
     public Document()
     {
-     
+     App.   
     }
 
     /**
      * Loads the document to pass to DocumentViewModel
+     * <param name="filePath"></param>
      */
-    public void LoadDocument(string filePath)
+    public void LoadFile(string filePath)
     {
-     
+        try
+        {
+            Content = File.ReadAllText(filePath);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error loading file: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
-    /**
-     * Saves the document
-     */
-    public void SaveDocument()
+    public void SaveFile(string filePath)
     {
-    }
-
-    /**
-    * Prints the document
-    */
-    public void PrintDocument()
-    {
+        try
+        {
+            File.WriteAllText(filePath, Content);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error saving file: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
     
-    /**
-     * Convert XAML text into HTML
-     */
-    public string ConvertXamlToHtml(string xamlContent)
+    public void AutoSave(string filePath)
     {
-     // Basic conversion: you will need to expand this based on your XAML structure
-     xamlContent = xamlContent.Replace("<Paragraph>", "<p>");
-     xamlContent = xamlContent.Replace("</Paragraph>", "</p>");
-     xamlContent = xamlContent.Replace("<Run>", "<span>");
-     xamlContent = xamlContent.Replace("</Run>", "</span>");
-     // Add more replacements as needed for other elements like Bold, Italic, etc.
-     return xamlContent;
+        // Look up logic to find the current file being used...
     }
+
 }

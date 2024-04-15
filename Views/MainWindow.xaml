@@ -5,6 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
         xmlns:local="clr-namespace:Poe"
+        xmlns:viewModels="clr-namespace:Poe.ViewModels"
+        xmlns:document="clr-namespace:Poe.Models.Document"
+        xmlns:helpers="clr-namespace:Poe.Helpers"
         mc:Ignorable="d"
         Title="Poe"
         Height="650"
@@ -20,6 +23,9 @@
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0,0,0,0" CornerRadius="0" />
     </WindowChrome.WindowChrome>
+    <Window.DataContext>
+        <viewModels:MainWindowViewModel/>
+    </Window.DataContext>
     <Window.Resources>
         <Style x:Key="ToolBarStyle" TargetType="{x:Type ToolBar}">
             <Setter Property="Background" Value="#FFF0D9" />
@@ -211,10 +217,16 @@
                              Loaded="ToolBar_Loaded"
                              Style="{StaticResource ToolBarStyle}"
                              Margin="20 0 20 0">
-                        <Button Style="{StaticResource FormatTextStyle}" ToolTip="New File">
-                            <TextBlock Margin="0 ">New</TextBlock>
-                        </Button>
-                        <Button Style="{StaticResource FormatTextStyle}" ToolTip="File">
+                        <Button Style="{StaticResource FormatTextStyle}" ToolTip="File Settings" Click="FileSettingsClick">
+                            <Button.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Header="New" Command="{Binding DocumentVM.NewCommand}"/>
+                                    <MenuItem Header="Open" Command="{Binding DocumentVM.OpenCommand}"/>
+                                    <MenuItem Header="Save" Command="{Binding DocumentVM.SaveCommand}"/>
+                                    <MenuItem Header="Save As..." Command="{Binding DocumentVM.SaveAsCommand}"/>
+                                    <MenuItem Header="Exit" Command="{Binding DocumentVM.ExitCommand}"/>
+                                </ContextMenu>
+                            </Button.ContextMenu>
                             <TextBlock Margin="0 ">File</TextBlock>
                         </Button>
                         <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Cut"
@@ -249,7 +261,7 @@
                                 ToolTip="Underline">
                             <materialIcons:MaterialIcon Kind="FormatUnderlined" Width="16" Height="16" />
                         </Button>
-                        <!-- todo make this look good -->
+                        <!-- todo make fontfamily combo box look better -->
                         <ComboBox x:Name="FontFamilyComboBox"
                                   Width="120"
                                   Margin="5"
@@ -347,7 +359,8 @@
                                                  ContextMenuOpening="MainRtb_ContextMenuOpening"
                                                  CommandManager.Executed="RichTextBox_Paste"
                                                  SpellCheck.IsEnabled="True"
-                                                 Language="en-US">
+                                                 Language="en-US"
+                                                 helpers:RichTextBoxHelper.DocumentXaml="{Binding DocumentVM.Document.Content, UpdateSourceTrigger=PropertyChanged}" >
                                         <!-- Todo add spellchecking context -->
                                         <RichTextBox.ContextMenu>
                                             <ContextMenu x:Name="MainRtbContextMenu">

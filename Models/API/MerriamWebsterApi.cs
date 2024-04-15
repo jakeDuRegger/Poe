@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace Poe.API
 {
-    // todo figure out adjectives.  DELETE THIS DOGSHIT CALLED ME A  TURKEY
+    // todo delete later
     public class MerriamWebsterApi
     {
         // Constants for the API keys

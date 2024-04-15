@@ -38,6 +38,9 @@
       <None Remove="Images\Poe.png" />
       <None Remove="Images\Raven.jpeg" />
       <Resource Include="Images\Raven.jpeg" />
+      <None Update="Data\Settings\config.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -58,6 +61,10 @@
       <PackageReference Include="ControlzEx" Version="7.0.0-alpha0021" />
       <PackageReference Include="Material.Icons" Version="2.1.6" />
       <PackageReference Include="Material.Icons.WPF" Version="2.1.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
       <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.2420.47" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="Open-XML-SDK" Version="2.9.1" />
