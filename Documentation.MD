@@ -1,7 +1,3 @@
-<style>
-
-</style>
-
 # Poe Docs
 
 This documentation provides a comprehensive guide for Poe!
