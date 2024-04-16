@@ -1,7 +1,3 @@
-<style>
-
-</style>
-
 # Poe Application Developer Documentation
 
 This documentation provides a comprehensive developer guide for the Poe application, detailing the architecture and
