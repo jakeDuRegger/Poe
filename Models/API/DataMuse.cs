@@ -1,9 +1,6 @@
 using System.Net.Http;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 
-namespace Poe.API;
+namespace Poe.Models.API;
 
 /**
  * Credits to https://www.datamuse.com/api/

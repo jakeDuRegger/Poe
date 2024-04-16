@@ -1,8 +1,11 @@
+<style>
+
+</style>
+
+# Poe Docs
 # Poe Application Developer Documentation
 
-This documentation provides a comprehensive developer guide for the Poe application, detailing the architecture and
-facilitating a thorough understanding of the dependency injection mechanism and configuration management.
-
+This documentation provides a comprehensive guide for Poe!
 ***
 
 ## Project Structure Overview
@@ -66,8 +69,10 @@ This phase focuses on developing a standalone literary rich text editor applicat
   - [ ] Add buttons for text alignment: left, center, right, and justify.
   - [ ] Include line spacing and paragraph spacing adjustments.
 - [ ] Implement clipboard operations.
-  - [ ] Add functionality for cut, copy, and paste.
+  - [x] Add functionality for cut, copy, and paste.
   - [ ] Ensure clipboard operations support rich text.
+
+***
 
 ### Document Handling
 - [ ] Set up basic file operations.
@@ -84,6 +89,8 @@ This phase focuses on developing a standalone literary rich text editor applicat
   - [ ] Create a change history tracker for documents.
   - [ ] Design a version comparison viewer.
 
+***
+
 ### Advanced Text Editing
 - [ ] Implement syllable count per line.
   - [ ] Develop logic to analyze and count syllables in text.
@@ -98,6 +105,8 @@ This phase focuses on developing a standalone literary rich text editor applicat
   - [ ] Create algorithms to detect poetic meter.
   - [ ] Allow users to view and edit scansion.
 
+***
+
 ### Media and Content
 - [ ] Allow image insertion into documents.
   - [ ] Add an interface for users to embed images.
@@ -105,6 +114,8 @@ This phase focuses on developing a standalone literary rich text editor applicat
 - [ ] Implement hyperlink functionality.
   - [ ] Develop logic to insert and edit hyperlinks.
   - [ ] Ensure hyperlinks are functional when documents are exported.
+
+***
 
 ### User Interface
 - [ ] Design a customizable UI theme system.
@@ -114,10 +125,39 @@ This phase focuses on developing a standalone literary rich text editor applicat
   - [ ] Research radial gradient implementation in WPF.
   - [ ] Apply a radial gradient background as a theme option.
 
+***
+
+### Settings Configuration
+- [ ] Create setting files
+  - [ ] Set up config file
+    - [ ] Define default settings
+    - [ ] Define fields required / structure of the json config
+- [ ] Detect the user's settings
+  -  [ ] Real time settings synchronization 
+- [ ] Application Settings
+  - [ ] Keybindings
+  - [ ] File location / pathing
+  - [ ] Version Control / Backups
+  - [ ] Repair solution
+- [ ] Document Settings
+  - [ ] Page Settings
+    - [ ] Width
+    - [ ] Height
+    - [ ] Margin
+    - [ ] Header
+    - [ ] Footer
+- [ ] UI Settings
+  - [ ] Night theme
+  - [ ] Customization of components
+  - [ ] Color of sidebars
+  - [ ] Dynamic binding...
+
+***
+
 ### External API Integration
-- [ ] Integrate Datamuse API.
-  - [ ] Set up API requests for word suggestions and rhymes.
-  - [ ] Parse and display API response data within the application.
+- [x] Integrate Datamuse API.
+  - [x] Set up API requests for word suggestions and rhymes.
+  - [x] Parse and display API response data within the application.
 - [ ] Integrate Wordnik API.
   - [ ] Establish API requests for definitions, synonyms, and antonyms.
   - [ ] Incorporate API data into the application's dictionary and thesaurus features.
@@ -134,6 +174,8 @@ This phase focuses on developing a standalone literary rich text editor applicat
 - [ ] Assess front-end libraries.
   - [ ] Experiment with cshtml5 for web capabilities.
   - [ ] Explore QuillJS as a potential rich text editor for web integration.
+
+***
 
 ## Phase 2: Poe Website Development
 This phase entails creating a web presence for the Poe application.
