@@ -3,43 +3,60 @@
 This documentation provides a comprehensive guide for Poe! A literary rich text editor for any style of writing.
 ***
 
+## Table of Contents
+
+1. [Roadmap](#roadmap)
+    - [Features](#features)
+2. [Project Structure Overview](#project-structure-overview)
+3. [Poe Development Roadmap and Checklist](#poe-development-roadmap-and-checklist)
+    - [Phase 1: Poe Application Development](#phase-1-poe-application-development)
+    - [Phase 2: Poe Website Development](#phase-2-poe-website-development)
+    - [Phase 3: Expansion and Growth](#phase-3-expansion-and-growth)
+4. [Development Documentation](#development-docs)
+   - [Dependency Injection](#dependency-injection)
+5. [Miscellaneous](#miscellaneous)
+   - [ChatGPT Prompts](#chatgpt-prompts)
+
+***
+
 ## Roadmap
 
 ### Features
-  - **Short Stories**
+
+- **Short Stories**
     - Capture the essence of a moment or a brief narrative.
 
-  - **Novels**
+- **Novels**
     - Develop extensive characters and detailed worlds with complex plots.
 
-  - **Screenwriting**
+- **Screenwriting**
     - Format your scripts for television, movies, and theater.
 
-  - **Poetry**
+- **Poetry**
     - From sonnets and haikus to free verse, craft your expressions.
 
-  - **Songwriting**
+- **Songwriting**
     - Write lyrics and structure songs with verses, choruses, and bridges.
 
-  - **Essays**
+- **Essays**
     - Articulate arguments or insights in structured or freeform essays.
 
-  - **Journalism**
+- **Journalism**
     - Create articles, reports, and editorials.
 
-  - **Playwriting**
+- **Playwriting**
     - Structure plays with acts and scenes for stage performances.
 
-  - **Memoir Writing**
+- **Memoir Writing**
     - Tell your personal stories through reflective narratives.
 
-  - **Copywriting**
+- **Copywriting**
     - Produce engaging content for marketing and advertising.
 
-  - **Technical Writing**
+- **Technical Writing**
     - Write manuals, instructions, or other technical documents.
 
-  - **Academic Writing**
+- **Academic Writing**
     - Produce scholarly articles, thesis papers, and research reports.
 
 - **Interesting Additions**
@@ -258,6 +275,8 @@ This phase entails creating a web presence for the Poe application.
 - [ ] Implement a web-based version of Poe using technologies like Blazor or cshtml5.
 - [ ] Consider integrating PoetryDB for a searchable database of poems.
 
+***
+
 ## Phase 3: Expansion and Growth
 
 This phase deals with expanding features and growing the user base.
@@ -282,11 +301,12 @@ This phase deals with expanding features and growing the user base.
 - [ ] Evaluate Git integration for version control among writers.
 - [ ] Explore form helpers for generating poetic structures.
 
-_Remember, this roadmap is iterative and may adapt as the project progresses and new opportunities or challenges arise._
+***
 
+# Development Docs
 
-
-
+Developer documentation for regular patterns, programming guides, and anything underneath the umbrella that appears in
+the development life cycle of Poe.
 
 ***
 
@@ -329,7 +349,13 @@ public class ViewModelA : ObservableObject
 
 ***
 
-# ChatGPT Prompts
+# Miscellaneous
+
+Additional support / help with extraneous areas of Poe development.
+
+***
+
+## ChatGPT Prompts
 
 ### Poe's Description / Context
 
