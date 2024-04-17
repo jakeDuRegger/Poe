@@ -218,6 +218,12 @@ This phase focuses on developing a standalone literary rich text editor applicat
         - [ ] Header
         - [ ] Footer
 - [ ] UI Settings
+  - [ ] Night theme
+  - [ ] Customization of components
+  - [ ] Color of sidebars
+  - [ ] Dynamic binding...
+- [ ] Language
+    - https://www.youtube.com/watch?v=FJSJLf76mBM
     - [ ] Night theme
     - [ ] Customization of components
     - [ ] Color of sidebars
