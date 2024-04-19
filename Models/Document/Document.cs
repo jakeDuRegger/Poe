@@ -18,11 +18,9 @@ public partial class Document : ObservableObject
     
     [ObservableProperty]
     private string currentFilePath;
-
-
+    
     public Document()
     {
-     App.   
     }
 
     /**

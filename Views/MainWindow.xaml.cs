@@ -65,7 +65,7 @@ public partial class MainWindow : Window
             }
             else
             {
-                viewModel.DocumentVM.SelectedWord = word; // Correctly set the selected word
+                viewModel.SelectedWord = word; // Correctly set the selected word
             }
 
             if (position != null)

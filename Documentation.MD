@@ -353,6 +353,33 @@ public class ViewModelA : ObservableObject
 }
 ```
 
+Injecting the config service into the ViewModel constructor, which then injects into any function as needed.
+
+***
+
+```csharp
+public MainWindowViewModel(ConfigurationService configService)
+{
+    _configService = configService;
+
+    // Access settings from the configuration and assign them to private fields
+    var lastDocumentPath = _configService.LastDocumentPath;
+    InitializeDocument(lastDocumentPath);
+}
+```
+You can also update the config settings from a private function in the view model
+
+***
+
+```csharp
+private void OpenDocument(string filePath)
+{
+        // Update the last document path in the configuration service
+        _configService.LastDocumentPath = filePath;
+
+}
+```
+
 ***
 
 # Miscellaneous

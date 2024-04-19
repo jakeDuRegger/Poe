@@ -6,6 +6,7 @@
         xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
         xmlns:local="clr-namespace:Poe"
         xmlns:viewModels="clr-namespace:Poe.ViewModels"
+        d:DataContext="{d:DesignInstance viewModels:MainWindowViewModel}"
         xmlns:document="clr-namespace:Poe.Models.Document"
         xmlns:helpers="clr-namespace:Poe.Helpers"
         mc:Ignorable="d"
@@ -220,11 +221,11 @@
                         <Button Style="{StaticResource FormatTextStyle}" ToolTip="File Settings" Click="FileSettingsClick">
                             <Button.ContextMenu>
                                 <ContextMenu>
-                                    <MenuItem Header="New" Command="{Binding DocumentVM.NewCommand}"/>
-                                    <MenuItem Header="Open" Command="{Binding DocumentVM.OpenCommand}"/>
-                                    <MenuItem Header="Save" Command="{Binding DocumentVM.SaveCommand}"/>
-                                    <MenuItem Header="Save As..." Command="{Binding DocumentVM.SaveAsCommand}"/>
-                                    <MenuItem Header="Exit" Command="{Binding DocumentVM.ExitCommand}"/>
+                                    <MenuItem Header="New" Command="{Binding NewCommand}"/>
+                                    <MenuItem Header="Open" Command="{Binding OpenCommand}"/>
+                                    <MenuItem Header="Save" Command="{Binding SaveCommand}"/>
+                                    <MenuItem Header="Save As..." Command="{Binding SaveAsCommand}"/>
+                                    <MenuItem Header="Exit" Command="{Binding ExitCommand}"/>
                                 </ContextMenu>
                             </Button.ContextMenu>
                             <TextBlock Margin="0 ">File</TextBlock>

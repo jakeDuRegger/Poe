@@ -29,7 +29,7 @@ public class ConfigurationService
     // Define fields for use in application from the config.json fields.
     public string? LastDocumentPath => _configuration["LastDocumentPath"];
     public string? Username => _configuration["UserSettings:Username"];
-    public bool LoadedBefore => bool.Parse(_configuration["UserSettings:FirstTime"] ?? string.Empty);
+    public bool FirstTime => bool.Parse(_configuration["UserSettings:FirstTime"] ?? string.Empty);
     public bool AutoSaveEnabled => bool.Parse(_configuration["EditorPreferences:AutoSaveEnabled"] ?? string.Empty);
     public int AutoSaveInterval => int.Parse(_configuration["EditorPreferences:AutoSaveInterval"] ?? string.Empty);
     public string Theme => _configuration["EditorPreferences:Theme"] ?? string.Empty;
