@@ -9,6 +9,7 @@ using System.Windows.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Poe.API;
+using Poe.Models.API;
 
 namespace Poe.ViewModels;
 

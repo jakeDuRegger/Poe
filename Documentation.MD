@@ -15,6 +15,7 @@ This documentation provides a comprehensive guide for Poe! A literary rich text 
 4. [Development Documentation](#development-docs)
    - [Dependency Injection](#dependency-injection)
 5. [Miscellaneous](#miscellaneous)
+   - [Potential Help](#interesting-help)
    - [ChatGPT Prompts](#chatgpt-prompts)
 
 ***
@@ -407,3 +408,15 @@ help me out with expanding it with this new section:
 Hi there, I am solo developing an application called 'Poe', a literary rich text
 editor. My codebase is written in C# and WPF. Your task is now to implement me a new feature in my WPF project.
 I would like:
+
+***
+
+# Interesting Resources
+
+#### Different resources that may potentially come in handy as I'm researching
+  
+***
+
+- **[PoeMage](https://www.sci.utah.edu/~nmccurdy/Poemage/)**
+  - PoeMage is a visualization system for rhyme and musicality of poems
+    - Potential: Incredibly useful

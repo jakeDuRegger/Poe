@@ -1,9 +1,11 @@
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
 using Poe.Helpers.Dependency_Injection;
+using Poe.Models.API;
 using Poe.Models.Document;
 
 namespace Poe.ViewModels;
@@ -17,6 +19,8 @@ public partial class MainWindowViewModel : ObservableObject
     
     private readonly ConfigurationService _configService;
     
+    private static readonly DataMuse _dataMuse = new DataMuse();
+    
     /*
      * Settings Variables
      */
@@ -26,38 +30,36 @@ public partial class MainWindowViewModel : ObservableObject
     private bool _isModified;
 
     
-    public MainWindowViewModel(ConfigurationService configService)
+    public MainWindowViewModel()
     {
-        _configService = configService; // Service that allows access to user's json.
+        // _configService = configService; // Service that allows access to user's json.
         
         
         // TODO: Figure out if this is the best way to handle. Potentially application level is better?
-        InitializeSettings(_configService); // Initialize 
+        // InitializeSettings(_configService); // Initialize 
         
-        
-        
-        if (configService.FirstTime)
-        {
-            // Prompt introduction.
-            IntroduceUser();
-        }
-        
-        // Check if user has a current open document with lastDocumentPath check.
-        var lastDocumentPath = _configService.LastDocumentPath;
-        if (!string.IsNullOrEmpty(lastDocumentPath))
-        {
-            LoadLastDocumentOrNew(lastDocumentPath);
-        }
-        else
-        {
-            // They don't have a recent document, so direct them to home.
-            DirectHome();
-        }
+        // if (configService.FirstTime)
+        // {
+        //     // Prompt introduction.
+        //     IntroduceUser();
+        // }
+        //
+        // // Check if user has a current open document with lastDocumentPath check.
+        // var lastDocumentPath = _configService.LastDocumentPath;
+        // if (!string.IsNullOrEmpty(lastDocumentPath))
+        // {
+        //     LoadLastDocumentOrNew(lastDocumentPath);
+        // }
+        // else
+        // {
+        //     // They don't have a recent document, so direct them to home.
+        //     DirectHome();
+        // }
     }
 
-    private void InitializeSettings(ConfigurationService configService)
+    private void InitializeSettings()
     {
-        _lastFilePath = configService.LastDocumentPath;
+        _lastFilePath = _configService.LastDocumentPath;
     }
 
     private void IntroduceUser()
@@ -229,12 +231,17 @@ public partial class MainWindowViewModel : ObservableObject
         // I can add anything here / any bindings and it would update according to the selected word!
     }
     
-    // Method to get the current selected word from the DocumentViewModel
+    // Method to get the current selected word
     private string GetCurrentSelectedWord()
     {
         return SelectedWord;
     }
-    
+
+    public void SetCurrentSelectedWord(string word)
+    {
+        SelectedWord = word;
+    }
+
     private void OnRequestNavigation(string pageType, string word)
     {
         RequestNavigation?.Invoke(pageType, word);
@@ -267,4 +274,29 @@ public partial class MainWindowViewModel : ObservableObject
         }
     }
     
+    public Task<Dictionary<char, List<string>>> GetRhymeSchemeForView(List<string> text)
+    {
+        return _dataMuse.GetRhymeScheme(text);
+    }
+
+    
+    public Task<List<string>> GetWordsFromText(string text)
+    {
+        return Task.Run(() =>
+        {
+            // Regex pattern to match words (sequences of word characters)
+            var matches = Regex.Matches(text, @"\b\w+\b");
+
+            // Convert matches to a list of words
+            var words = new List<string>();
+            foreach (Match match in matches)
+            {
+                words.Add(match.Value);
+            }
+            return words;
+        });
+    }
+
+
+
 }

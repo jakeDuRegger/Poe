@@ -11,10 +11,21 @@ namespace Poe;
 /// </summary>
 public partial class App : Application
 {
+    
     /// <summary>
     /// Provides a central mechanism to access service objects.
     /// </summary>
     public static IServiceProvider ServiceProvider { get; private set; }
+
+    public App()
+    {
+        // Create a new service collection for registering services.
+        var serviceCollection = new ServiceCollection();
+        ConfigureServices(serviceCollection);
+
+        // Build the service provider from the service collection.
+        ServiceProvider = serviceCollection.BuildServiceProvider();
+    }
 
     /// <summary>
     /// This method is called when the application starts up.
@@ -23,15 +34,11 @@ public partial class App : Application
     /// <param name="e">Contains the arguments for the startup event.</param>
     protected override void OnStartup(StartupEventArgs e)
     {
-        // Create a new service collection for registering services.
-        var serviceCollection = new ServiceCollection();
-        ConfigureServices(serviceCollection);
-
-        // Build the service provider from the service collection.
-        ServiceProvider = serviceCollection.BuildServiceProvider();
-
         base.OnStartup(e);
+        var mainWindow = ServiceProvider.GetService<MainWindow>();
+        mainWindow?.Show();
     }
+    
 
     /// <summary>
     /// Configures services to be used in the application by registering them with the DI container.

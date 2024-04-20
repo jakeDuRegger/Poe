@@ -1,4 +1,6 @@
 using System.Net.Http;
+using System.Runtime.InteropServices.JavaScript;
+using Newtonsoft.Json;
 
 namespace Poe.Models.API;
 
@@ -161,6 +163,99 @@ public class DataMuse
         }
         return "";
     }
+    
+    /**
+     * From a list of words it finds rhymes between words. Returns a dictionary of a word and the rhymes found.
+     */
+    private async Task<Dictionary<string, List<string>>> GetRhymesFromText(List<string> text)
+    { 
+      // Use a HashSet to avoid duplicate API calls for the same word.
+      var uniqueWords = new HashSet<string>(text);
+      
+      // Fill dictionary keys with our unique words
+      var rhymeDictionary = new Dictionary<string, HashSet<string>>();
+
+      // We really want to loop through the words we pass in, that's all we care about!
+      foreach (var word in uniqueWords)
+      {
+          // Get the list of rhymes for each word
+          var rhymes = await GetRhymes(word);
+          
+          // Cull all entries not in our uniqueWord set
+          var filteredRhymes = new HashSet<string>(rhymes.Where(r => uniqueWords.Contains(r)));
+
+          // Search through rhyme list for current word in the unique word list
+          foreach (var rhyme in filteredRhymes)
+          {
+              // Sort the word and its rhyme in alphabetical order to avoid mix ups.
+              string key = String.CompareOrdinal(word, rhyme) < 0 ? word : rhyme;
+              string value = String.CompareOrdinal(word, rhyme) < 0 ? rhyme : word;
+              
+              
+              if (!rhymeDictionary.ContainsKey(key))
+              {
+                  rhymeDictionary[key] = new HashSet<string>();
+              }
+
+              // Avoid adding the reverse direction of an already existing pair
+              if (!rhymeDictionary[key].Contains(value))
+              {
+                  rhymeDictionary[key].Add(value);
+              }
+          }
+      }
+
+      // Convert to list -- todo this is probably not right
+      var commonRhymes = rhymeDictionary.ToDictionary(pair => pair.Key, pair => pair.Value.ToList());
+      
+      return commonRhymes;
+    }
+
+    /**
+     * Assigns rhyme scheme from dictionary of words and their respective rhymes.
+     */
+    private Dictionary<char, List<string>> AssignRhymeScheme(Dictionary<string, List<string>>? commonRhymeDictionary)
+    {
+        // Dictionary mapping letters to rhymes ("A" => ["cat", "bat"])
+        var rhymeScheme = new Dictionary<char, List<string>>();
+
+        var c = 'A';
+
+        // Add the words and their respective rhymes to a place within the rhymeScheme dictionary
+        foreach (var word in commonRhymeDictionary)
+        {
+            if (!rhymeScheme.ContainsKey(c))
+            {
+                rhymeScheme[c] = new List<string>();
+            }
+            
+            // Add word to rhyme scheme.
+            rhymeScheme[c].Add(word.Key);
+        
+            // Add each rhyme from that word to rhyme scheme.
+            foreach (var rhyme in word.Value)
+            {
+                rhymeScheme[c].Add(rhyme);
+
+            }
+            c++;
+        }
+        
+        return rhymeScheme;
+    }
+    /**
+     * Gets the complete rhyme scheme after analyzing and assigning letters to each rhyme.
+     */
+    public async Task<Dictionary<char, List<string>>> GetRhymeScheme(List<string> text)
+    {
+        // Todo: Figure out more logic on what to do with the rhyme scheme.
+        var commonRhymesDictionary= await GetRhymesFromText(text);
+        var rhymeScheme = AssignRhymeScheme(commonRhymesDictionary);
+        return rhymeScheme;
+    }
+
+    
+
 
 }
 

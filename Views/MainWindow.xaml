@@ -361,7 +361,7 @@
                                                  CommandManager.Executed="RichTextBox_Paste"
                                                  SpellCheck.IsEnabled="True"
                                                  Language="en-US"
-                                                 helpers:RichTextBoxHelper.DocumentXaml="{Binding DocumentVM.Document.Content, UpdateSourceTrigger=PropertyChanged}" >
+                                                 helpers:RichTextBoxHelper.DocumentXaml="{Binding Document.Content, UpdateSourceTrigger=PropertyChanged}" >
                                         <!-- Todo add spellchecking context -->
                                         <RichTextBox.ContextMenu>
                                             <ContextMenu x:Name="MainRtbContextMenu">
@@ -389,19 +389,19 @@
                                                 <!-- For some reason this works as a separator where separator does not -->
                                                 <MenuItem Height="1" Background="LightGray" />
                                                 
-                                                <MenuItem Header="{Binding DocumentVM.FormattedSelectedWordDefinition}" 
+                                                <MenuItem Header="{Binding FormattedSelectedWordDefinition}" 
                                                           Click="LookupDefinition_Click">
                                                     <MenuItem.Icon>
                                                         <materialIcons:MaterialIcon Kind="Book" />
                                                     </MenuItem.Icon>
                                                 </MenuItem>
-                                                <MenuItem Header="{Binding DocumentVM.FormattedSelectedWordThesaurus}"
+                                                <MenuItem Header="{Binding FormattedSelectedWordThesaurus}"
                                                           Click="LookupSynonyms_Click">
                                                     <MenuItem.Icon>
                                                         <materialIcons:MaterialIcon Kind="Bookshelf" />
                                                     </MenuItem.Icon>
                                                 </MenuItem>
-                                                <MenuItem Header="{Binding DocumentVM.FormattedSelectedWordRhyme}"
+                                                <MenuItem Header="{Binding FormattedSelectedWordRhyme}"
                                                           Click="LookupRhymes_Click">
                                                     <MenuItem.Icon>
                                                         <materialIcons:MaterialIcon Kind="Library" />
@@ -411,6 +411,12 @@
                                                           >
                                                     <MenuItem.Icon>
                                                         <materialIcons:MaterialIcon Kind="Bookmark" />
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                                <MenuItem Header="Analyze Rhymes"
+                                                          Click="AnalyzeRhymes_Click">
+                                                    <MenuItem.Icon>
+                                                        <materialIcons:MaterialIcon Kind="Analytics" />
                                                     </MenuItem.Icon>
                                                 </MenuItem>
                                             </ContextMenu>

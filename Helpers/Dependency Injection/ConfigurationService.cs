@@ -9,8 +9,8 @@ public class ConfigurationService
 {
     /*This interface is part of the Microsoft.Extensions.Configuration library and is used to read settings from
      configuration files like config.json. It provides a flexible way to access these settings based on keys.*/
-    private readonly IConfiguration _configuration;
-    
+    private IConfiguration? _configuration;
+
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ConfigurationService"/> class.
@@ -18,26 +18,23 @@ public class ConfigurationService
     /// <param name="configuration">The configuration object which holds the settings.</param>
     public ConfigurationService(IConfiguration configuration)
     {
-        _configuration = configuration;
+        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        
+        // Load values from configuration or set defaults
+        LastDocumentPath = _configuration["LastDocumentPath"] ?? string.Empty;
+        Username = _configuration["UserSettings:Username"] ?? "DefaultUser";
+        FirstTime = bool.TryParse(_configuration["UserSettings:FirstTime"], out var ft) && ft;
+        AutoSaveEnabled = bool.TryParse(_configuration["EditorPreferences:AutoSaveEnabled"], out var ase) && ase; //todo figure out wtf these little characters mean
+        AutoSaveInterval = int.TryParse(_configuration["EditorPreferences:AutoSaveInterval"], out var asi) ? asi : 300; // Default to 300
+        Theme = _configuration["EditorPreferences:Theme"] ?? "Light"; // Default to "Light" theme
     }
-
-    
-    /*
-     * FIELDS FOR CONFIG
-     */
     
     // Define fields for use in application from the config.json fields.
-    public string? LastDocumentPath => _configuration["LastDocumentPath"];
-    public string? Username => _configuration["UserSettings:Username"];
-    public bool FirstTime => bool.Parse(_configuration["UserSettings:FirstTime"] ?? string.Empty);
-    public bool AutoSaveEnabled => bool.Parse(_configuration["EditorPreferences:AutoSaveEnabled"] ?? string.Empty);
-    public int AutoSaveInterval => int.Parse(_configuration["EditorPreferences:AutoSaveInterval"] ?? string.Empty);
-    public string Theme => _configuration["EditorPreferences:Theme"] ?? string.Empty;
-    
-    
-    /*
-     * 
-     */
-    
+    public string LastDocumentPath { get; set; }
+    public string Username { get; set; }
+    public bool FirstTime { get; set; }
+    public bool AutoSaveEnabled { get; set; }
+    public int AutoSaveInterval { get; set; }
+    public string Theme { get; set; }
     
 }
