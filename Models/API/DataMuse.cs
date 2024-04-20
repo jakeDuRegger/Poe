@@ -165,9 +165,9 @@ public class DataMuse
     }
     
     /**
-     * From a list of words it finds rhymes between words. Returns a dictionary of a word and the rhymes found.
+     * !Deprecated! From a list of words it finds rhymes between words. Returns a dictionary of a word and the rhymes found.
      */
-    private async Task<Dictionary<string, List<string>>> GetRhymesFromText(List<string> text)
+    /*private async Task<Dictionary<string, List<string>>> GetRhymesFromTextOld(List<string> text)
     { 
       // Use a HashSet to avoid duplicate API calls for the same word.
       var uniqueWords = new HashSet<string>(text);
@@ -204,12 +204,52 @@ public class DataMuse
               }
           }
       }
-
       // Convert to list -- todo this is probably not right
       var commonRhymes = rhymeDictionary.ToDictionary(pair => pair.Key, pair => pair.Value.ToList());
       
       return commonRhymes;
+    }*/
+    
+        
+    /*
+     * Lookup from first word all its relatives (rhymes). If any words that rhyme exist, add them all to the dictionary
+     * then remove them from the list.
+     * Repeat this step until you have a full dictionary.
+     */
+    private async Task<Dictionary<string, List<string>>> GetRhymesFromText(List<string> words)
+    {
+        // Initialize your rhyme dictionary
+        var rhymeDictionary = new Dictionary<string, List<string>>();
+        var uniqueWords = new HashSet<string>(words);
+
+        // As long as there are ungrouped words, keep forming groups
+        while (uniqueWords.Any())
+        {
+            var word = uniqueWords.First(); // Take the first word
+            var rhymes = await GetRhymes(word); // Get rhymes for that word
+
+            // Filter rhymes to only include those that are in the unique words set
+            var rhymingWords = rhymes.Where(r => uniqueWords.Contains(r)).ToList();
+
+            if (rhymingWords.Count > 0)
+            {
+                // Add the first word and its rhymes to the dictionary
+                rhymeDictionary[word] = rhymingWords;
+
+                // Remove the rhyming words from the set of unique words
+                rhymingWords.ForEach(rw => uniqueWords.Remove(rw));
+            }
+            // Also remove the original word whether it had rhymes or not
+            uniqueWords.Remove(word);
+        }
+
+        return rhymeDictionary;
     }
+
+
+    
+    
+    
 
     /**
      * Assigns rhyme scheme from dictionary of words and their respective rhymes.
@@ -243,6 +283,12 @@ public class DataMuse
         
         return rhymeScheme;
     }
+
+    private void OrderRhymeGroups()
+    {
+        
+    }
+
     /**
      * Gets the complete rhyme scheme after analyzing and assigning letters to each rhyme.
      */
@@ -253,6 +299,8 @@ public class DataMuse
         var rhymeScheme = AssignRhymeScheme(commonRhymesDictionary);
         return rhymeScheme;
     }
+    
+    
 
     
 
