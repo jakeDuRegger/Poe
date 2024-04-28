@@ -1,6 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF">
+                    xmlns:materialIcons="clr-namespace:Material.Icons.WPF;assembly=Material.Icons.WPF"
+                    xmlns:document="clr-namespace:Poe.Models.Document">
     <Style x:Key="ToolBarStyle" TargetType="{x:Type ToolBar}">
         <Setter Property="Background" Value="#FFF0D9" />
         <Setter Property="Template">
@@ -13,6 +14,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <!-- todo refactor to use MainRTB-->
 
     <!-- Button styles -->
     <Style TargetType="{x:Type Button}" x:Key="FormatTextStyle">
@@ -49,6 +51,8 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <!-- todo refactor to use MainRTB-->
+
 
     <Style TargetType="{x:Type Button}" x:Key="FormatImageStyle">
         <Setter Property="Width" Value="30"></Setter>
@@ -81,9 +85,8 @@
             </Setter.Value>
         </Setter>
     </Style>
-
     <!-- RichTextBox style -->
-    <Style TargetType="{x:Type RichTextBox}">
+    <Style TargetType="{x:Type document:MainRichTextBox}">
         <Setter Property="Padding" Value="10"></Setter>
         <Setter Property="Background" Value="#FAFAFA"></Setter>
         <Setter Property="BorderThickness" Value="0"></Setter>

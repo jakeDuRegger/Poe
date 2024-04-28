@@ -296,7 +296,13 @@ public partial class MainWindowViewModel : ObservableObject
             return words;
         });
     }
-
-
+    
+    /*
+     * Custom routed events 
+     */
+    private void DiffAlgorithm()
+    {
+        
+    }
 
 }

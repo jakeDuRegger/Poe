@@ -13,14 +13,16 @@ This documentation provides a comprehensive guide for Poe! A literary rich text 
     - [Phase 2: Poe Website Development](#phase-2-poe-website-development)
     - [Phase 3: Expansion and Growth](#phase-3-expansion-and-growth)
 4. [Development Documentation](#development-docs)
-   - [Dependency Injection](#dependency-injection)
+    - [Dependency Injection](#dependency-injection)
 5. [Miscellaneous](#miscellaneous)
-   - [Potential Help](#interesting-help)
-   - [ChatGPT Prompts](#chatgpt-prompts)
+    - [Potential Help](#interesting-help)
+    - [ChatGPT Prompts](#chatgpt-prompts)
 
 ***
 
-## Roadmap
+# Roadmap
+
+***
 
 ### Features
 
@@ -66,7 +68,7 @@ This documentation provides a comprehensive guide for Poe! A literary rich text 
 
 ***
 
-## Project Structure Overview
+## Project Structure Overview &nbsp; [&uarr;](#table-of-contents)
 
 Poe follows the MVVM (Model-View-ViewModel) pattern, ensuring a separation of concerns and facilitating maintainable
 code:
@@ -120,7 +122,7 @@ code:
 
 ***
 
-# Poe Development Roadmap and Checklist
+# Poe Development Roadmap and Checklist &nbsp; [&uarr;](#table-of-contents)
 
 ## Phase 1: Poe Application Development
 
@@ -139,8 +141,6 @@ This phase focuses on developing a standalone literary rich text editor applicat
     - [x] Add functionality for cut, copy, and paste.
     - [ ] Ensure clipboard operations support rich text.
 
-***
-
 ### Document Handling
 
 - [ ] Set up basic file operations.
@@ -157,8 +157,6 @@ This phase focuses on developing a standalone literary rich text editor applicat
     - [ ] Create a change history tracker for documents.
     - [ ] Design a version comparison viewer.
 
-***
-
 ### Advanced Text Editing
 
 - [ ] Implement syllable count per line.
@@ -174,8 +172,6 @@ This phase focuses on developing a standalone literary rich text editor applicat
     - [ ] Create algorithms to detect poetic meter.
     - [ ] Allow users to view and edit scansion.
 
-***
-
 ### Media and Content
 
 - [ ] Allow image insertion into documents.
@@ -185,8 +181,6 @@ This phase focuses on developing a standalone literary rich text editor applicat
     - [ ] Develop logic to insert and edit hyperlinks.
     - [ ] Ensure hyperlinks are functional when documents are exported.
 
-***
-
 ### User Interface
 
 - [ ] Design a customizable UI theme system.
@@ -195,8 +189,6 @@ This phase focuses on developing a standalone literary rich text editor applicat
 - [ ] Explore unique UI visual experiences.
     - [ ] Research radial gradient implementation in WPF.
     - [ ] Apply a radial gradient background as a theme option.
-
-***
 
 ### Settings Configuration
 
@@ -219,10 +211,10 @@ This phase focuses on developing a standalone literary rich text editor applicat
         - [ ] Header
         - [ ] Footer
 - [ ] UI Settings
-  - [ ] Night theme
-  - [ ] Customization of components
-  - [ ] Color of sidebars
-  - [ ] Dynamic binding...
+    - [ ] Night theme
+    - [ ] Customization of components
+    - [ ] Color of sidebars
+    - [ ] Dynamic binding...
 - [ ] Language
     - https://www.youtube.com/watch?v=FJSJLf76mBM
     - [ ] Night theme
@@ -310,7 +302,7 @@ This phase deals with expanding features and growing the user base.
 
 ***
 
-# Development Docs
+# Development Docs &nbsp; [&uarr;](#table-of-contents)
 
 Developer documentation for regular patterns, programming guides, and anything underneath the umbrella that appears in
 the development life cycle of Poe.
@@ -368,6 +360,7 @@ public MainWindowViewModel(ConfigurationService configService)
     InitializeDocument(lastDocumentPath);
 }
 ```
+
 You can also update the config settings from a private function in the view model
 
 ***
@@ -383,7 +376,65 @@ private void OpenDocument(string filePath)
 
 ***
 
-# Miscellaneous
+## Adorners
+
+These are visual elements that are overlaid atop any UI element, i.e. button, document, etc.
+
+### Extending Adorner Class
+
+You start by creating a new class that inherits from Adorner. In the OnRender method, you can draw on the adorner using
+a DrawingContext.
+
+```csharp
+public class SimpleAdorner : Adorner
+{
+    public SimpleAdorner(UIElement adornedElement) : base(adornedElement) {}
+
+    protected override void OnRender(DrawingContext drawingContext)
+    {
+        Rect adornedElementRect = new Rect(this.AdornedElement.RenderSize);
+        Pen renderPen = new Pen(new SolidColorBrush(Colors.Red), 1.5);
+        drawingContext.DrawRectangle(null, renderPen, adornedElementRect);
+    }
+}
+```
+
+### Adding Adorners
+
+To add an adorner to an element, you need to get the `AdornerLayer` for that element and then call `Add` with your
+adorner.
+
+```csharp
+var myControl = new Button { Content = "Click Me" };
+var myAdorner = new SimpleAdorner(myControl);
+AdornerLayer myLayer = AdornerLayer.GetAdornerLayer(myControl);
+myLayer.Add(myAdorner);
+```
+
+### Removing Adorners
+
+You can remove an adorner by calling `Remove` on the `AdornerLayer`.
+
+```csharp
+myLayer.Remove(myAdorner); 
+```
+
+### Updating Adorners
+
+To update an adorner dynamically, you can expose properties or methods in your adorner class that change its state.
+After updating the state, call `InvalidateVisual()` to force a redraw.
+
+```csharp
+    public void exampleSetter(double width)
+    {
+        borderWidth = width;
+        this.InvalidateVisual();  // Redraw the adorner
+    }
+```
+
+***
+
+# Miscellaneous &nbsp; [&uarr;](#table-of-contents)
 
 Additional support / help with extraneous areas of Poe development.
 
@@ -411,12 +462,16 @@ I would like:
 
 ***
 
-# Interesting Resources
+# Interesting Resources &nbsp;[&uarr;](#table-of-contents)
 
 #### Different resources that may potentially come in handy as I'm researching
-  
+
 ***
 
 - **[PoeMage](https://www.sci.utah.edu/~nmccurdy/Poemage/)**
-  - PoeMage is a visualization system for rhyme and musicality of poems
-    - Potential: Incredibly useful
+    - PoeMage is a visualization system for rhyme and musicality of poems
+        - Potential: Incredibly useful
+- **[Custom Event Handling](https://www.youtube.com/watch?v=TAJ7ZXdfCv8)**
+    - Could add a custom event for triggering text analysis
+
+  

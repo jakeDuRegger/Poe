@@ -341,4 +341,38 @@ public partial class MainWindow : Window
             MessageBox.Show("ViewModel is not available.");
         }
     }
+
+    private void MainRtb_OnTextChanged(object sender, TextChangedEventArgs e)
+    {
+        
+        // We want to only call the event once there are a sufficient amount of lines
+        // We need to cache the results of our already identified rhyme schemes if the end words are still the same.
+        // We need to update the cache if the end words change.
+        // We can do this with a simple json format of the respective A: "", B: "", etc.
+        // We can divide the text into two sections to run in parallel.
+        // One function is simply a simple checker that checks if anything has changed since its last historical version
+        // The second function starts from the last TextPointer and checks if textChanged from that point on.
+        // I wonder if this requires an additional custom event handler that checks position
+        // Adding a debounce timer would help to reduce resource overhead and not annoy the user.
+        // Debounce timer + only being called on worthy changes to pre-existing text would be the goal I assume.
+        
+        
+        /*// Access the text from the RichTextBox
+        TextRange textRange = new TextRange(MainRtb.Document.ContentStart, MainRtb.Document.ContentEnd);
+        
+        string textContent = textRange.Text;
+        
+        // Normalize newline characters and split the text into lines
+        var lines = textContent.Replace("\r\n", "\n").Split('\n');
+        // Check if there are at least two non-empty lines
+        if (lines.Count(line => !string.IsNullOrWhiteSpace(line)) >= 3)
+        {
+            MessageBox.Show("There are two lines!");
+        }*/
+
+    }
+    private void BreakPage_Click(object sender, RoutedEventArgs e)
+    {
+        MainRtb?.BreakPage();
+    }
 }

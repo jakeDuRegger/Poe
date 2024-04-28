@@ -97,7 +97,7 @@
                     <Setter Property="FontWeight" Value="DemiBold"></Setter>
                     <Setter Property="Width" Value="36"></Setter>
                     <Setter Property="FontSize" Value="14"></Setter>
-                    <Setter Property="CommandTarget" Value="{Binding ElementName=RichTextBox}"></Setter>
+                    <Setter Property="CommandTarget" Value="{Binding ElementName=MainRtb}"></Setter>
                     <Setter Property="Margin" Value="0"></Setter>
                     <Setter Property="Background" Value="#FFF0D9"></Setter>
                     <Setter Property="Foreground" Value="#191815"></Setter> <!--Color of font-->
@@ -129,7 +129,7 @@
 
                 <Style TargetType="{x:Type Button}" x:Key="FormatImageStyle">
                     <Setter Property="Width" Value="30"></Setter>
-                    <Setter Property="CommandTarget" Value="{Binding ElementName=RichTextBox}"></Setter>
+                    <Setter Property="CommandTarget" Value="{Binding ElementName=MainRtb}"></Setter>
                     <Setter Property="Margin" Value="2"></Setter>
                     <Setter Property="Background" Value="#FFF0D9"></Setter>
                     <Setter Property="Foreground" Value="#191815"></Setter> <!--Color of icon-->
@@ -160,7 +160,7 @@
                 </Style>
 
                 <!-- RichTextBox style -->
-                <Style TargetType="{x:Type RichTextBox}">
+                <Style TargetType="{x:Type document:MainRichTextBox}">
                     <Setter Property="Padding" Value="10"></Setter>
                     <Setter Property="Background" Value="#FAFAFA"></Setter>
                     <Setter Property="BorderThickness" Value="0"></Setter>
@@ -229,6 +229,10 @@
                                 </ContextMenu>
                             </Button.ContextMenu>
                             <TextBlock Margin="0 ">File</TextBlock>
+                        </Button>
+                        <Button Style="{StaticResource FormatImageStyle}" Click="BreakPage_Click"
+                                ToolTip="Break Page">
+                            <materialIcons:MaterialIcon Kind="FormatPageSplit" Width="16" Height="16" />
                         </Button>
                         <Button Style="{StaticResource FormatImageStyle}" Command="ApplicationCommands.Cut"
                                 ToolTip="Cut">
@@ -320,7 +324,8 @@
 
             <!-- Main content area -->
             <Border Grid.Row="2" BorderThickness="1" CornerRadius="0" BorderBrush="Gray">
-                <FlowDocumentScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Focusable="False">
+                <FlowDocumentScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Focusable="False" MinZoom="50" MaxZoom="1000"
+                                          Zoom="120" ZoomIncrement="5">
                     <FlowDocument Background="#323230"
                                   PageHeight="816"  
                                   PageWidth="Auto"
@@ -349,19 +354,20 @@
 
                                 <!-- Main document column -->
                                 <Grid Grid.Row="1" Grid.Column="1" MinHeight="9.0in">
-                                    <RichTextBox Name="MainRtb"
-                                                 AcceptsTab="True"
-                                                 AcceptsReturn="True"
-                                                 VerticalScrollBarVisibility="Auto"
-                                                 FontFamily="Times New Roman"
-                                                 FontSize="12"
-                                                 FontWeight="Normal"
-                                                 FontStyle="Normal"
-                                                 ContextMenuOpening="MainRtb_ContextMenuOpening"
-                                                 CommandManager.Executed="RichTextBox_Paste"
-                                                 SpellCheck.IsEnabled="True"
-                                                 Language="en-US"
-                                                 helpers:RichTextBoxHelper.DocumentXaml="{Binding Document.Content, UpdateSourceTrigger=PropertyChanged}" >
+                                    <document:MainRichTextBox x:Name="MainRtb"
+                                                           AcceptsTab="True"
+                                                           AcceptsReturn="True"
+                                                           VerticalScrollBarVisibility="Auto"
+                                                           FontFamily="Times New Roman"
+                                                           FontSize="12"
+                                                           FontWeight="Normal"
+                                                           FontStyle="Normal"
+                                                           TextChanged="MainRtb_OnTextChanged"
+                                                           ContextMenuOpening="MainRtb_ContextMenuOpening"
+                                                           CommandManager.Executed="RichTextBox_Paste"
+                                                           SpellCheck.IsEnabled="True"
+                                                           Language="en-US"
+                                                           helpers:RichTextBoxHelper.DocumentXaml="{Binding Document.Content, UpdateSourceTrigger=PropertyChanged}" >
                                         <!-- Todo add spellchecking context -->
                                         <RichTextBox.ContextMenu>
                                             <ContextMenu x:Name="MainRtbContextMenu">
@@ -425,7 +431,7 @@
                                             <KeyBinding Key="V" Modifiers="Control+Shift"
                                                         Command="ApplicationCommands.Paste" />
                                         </RichTextBox.InputBindings>
-                                    </RichTextBox>
+                                    </document:MainRichTextBox>
                                     <Popup x:Name="InfoPopup" Width="300" Height="50" Placement="Center">
                                         <Border Background="White" BorderBrush="Black" BorderThickness="1">
                                             <TextBlock x:Name="PopupText" TextWrapping="Wrap" Margin="10"/>
