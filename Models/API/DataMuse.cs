@@ -215,12 +215,18 @@ public class DataMuse
      * Lookup from first word all its relatives (rhymes). If any words that rhyme exist, add them all to the dictionary
      * then remove them from the list.
      * Repeat this step until you have a full dictionary.
+     * todo potentially revisit to use LINQ UnionWith method
      */
     private async Task<Dictionary<string, List<string>>> GetRhymesFromText(List<string> words)
     {
-        // Initialize your rhyme dictionary
         var rhymeDictionary = new Dictionary<string, List<string>>();
         var uniqueWords = new HashSet<string>(words);
+        
+        // Precompute duplicates only once for efficiency
+        var duplicates = words.GroupBy(s => s)
+            .Where(g => g.Count() > 1)
+            .Select(g => g.Key)
+            .ToHashSet();
 
         // As long as there are ungrouped words, keep forming groups
         while (uniqueWords.Any())
@@ -230,17 +236,40 @@ public class DataMuse
 
             // Filter rhymes to only include those that are in the unique words set
             var rhymingWords = rhymes.Where(r => uniqueWords.Contains(r)).ToList();
-
+            
+            // Always initialize a list for the word in the dictionary
+            if (!rhymeDictionary.ContainsKey(word))
+            {
+                rhymeDictionary[word] = new List<string>();
+            }
+            
             if (rhymingWords.Count > 0)
             {
                 // Add the first word and its rhymes to the dictionary
-                rhymeDictionary[word] = rhymingWords;
-
+                rhymeDictionary[word].AddRange(rhymingWords);
+                
                 // Remove the rhyming words from the set of unique words
                 rhymingWords.ForEach(rw => uniqueWords.Remove(rw));
             }
+            
+            // Check if the current word is a duplicate and thus should be added to its own list
+            if (duplicates.Contains(word))
+            {
+                rhymeDictionary[word].Add(word);
+            }
+            
             // Also remove the original word whether it had rhymes or not
             uniqueWords.Remove(word);
+        }
+        
+        // Remove entries with empty rhyme lists before returning
+        var keysWithEmptyLists = rhymeDictionary.Where(kvp => kvp.Value.Count == 0)
+            .Select(kvp => kvp.Key)
+            .ToList();  // ToList to avoid modifying the collection while iterating
+
+        foreach (var key in keysWithEmptyLists)
+        {
+            rhymeDictionary.Remove(key);
         }
 
         return rhymeDictionary;

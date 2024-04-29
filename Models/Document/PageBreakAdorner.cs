@@ -6,15 +6,21 @@ namespace Poe.Models.Document;
 
 public class PageBreakAdorner : Adorner
 {
-    private double _pageBreakHeight;
+    internal double PageBreakHeight { get; set; } // todo come back later and figure out why we need / if need internal
 
-    private List<double> _rectanglePositions;
-    
+    internal List<double> RectanglePositions;
+
     public PageBreakAdorner(UIElement adornedElement, double documentHeight) : base(adornedElement)
     {
-        _pageBreakHeight = documentHeight + 10;
+        PageBreakHeight = documentHeight + 10;
         IsHitTestVisible = false; // Makes sure adorner doesn't interfere with text editing
-        _rectanglePositions = new List<double> { _pageBreakHeight }; // Add the original at page break height.
+        RectanglePositions = new List<double> { PageBreakHeight }; // Add the original at page break height.
+    }
+    
+    public void UpdateRectanglePositions(List<double> validBreaks)
+    {
+        RectanglePositions = validBreaks;
+        Update(); // Redraw the adorner with the updated breaks
     }
     
     private void Update()
@@ -28,9 +34,9 @@ public class PageBreakAdorner : Adorner
         
         SolidColorBrush fillBrush  = new SolidColorBrush(Color.FromRgb(50, 50, 48)); // Equivalent to #323230 in RGB
         Pen borderPen = new Pen(Brushes.Black, 0.15);
-        Pen sideBorderPen = new Pen(Brushes.Aqua, 1); // Pen for left and right borders
+        Pen sideBorderPen = new Pen(new SolidColorBrush(Color.FromRgb(50, 50, 48)), 1); // Pen for left and right borders
 
-        foreach (double position in _rectanglePositions)
+        foreach (double position in RectanglePositions)
         {
             double renderHeight = position;
             
@@ -51,7 +57,16 @@ public class PageBreakAdorner : Adorner
 
     public void AddNewRectangle(double newPosition)
     {
-        _rectanglePositions.Add(newPosition);
+        RectanglePositions.Add(newPosition);
         Update(); // Redraw adorner to include new rectangle
+    }
+
+    public void RemoveRectangleAt(int index)
+    {
+        if (index >= 0 && index < RectanglePositions.Count)
+        {
+            RectanglePositions.RemoveAt(index);
+            Update();
+        }
     }
 }

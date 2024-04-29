@@ -28,19 +28,11 @@
         <viewModels:MainWindowViewModel/>
     </Window.DataContext>
     <Window.Resources>
-        <Style x:Key="ToolBarStyle" TargetType="{x:Type ToolBar}">
-            <Setter Property="Background" Value="#FFF0D9" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ToolBar}">
-                        <Border Background="{TemplateBinding Background}">
-                            <ToolBarPanel IsItemsHost="True" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/MainWindowStyles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
     <!-- Window's Grid -->
     <Grid>
@@ -88,95 +80,6 @@
 
         <!-- Main content area -->
         <Grid Grid.Row="1">
-            <!-- Set the styles for the toolbar and RichTextBox -->
-            <Grid.Resources>
-
-                <!-- Button styles -->
-                <Style TargetType="{x:Type Button}" x:Key="FormatTextStyle">
-                    <Setter Property="FontFamily" Value="Roboto"></Setter>
-                    <Setter Property="FontWeight" Value="DemiBold"></Setter>
-                    <Setter Property="Width" Value="36"></Setter>
-                    <Setter Property="FontSize" Value="14"></Setter>
-                    <Setter Property="CommandTarget" Value="{Binding ElementName=MainRtb}"></Setter>
-                    <Setter Property="Margin" Value="0"></Setter>
-                    <Setter Property="Background" Value="#FFF0D9"></Setter>
-                    <Setter Property="Foreground" Value="#191815"></Setter> <!--Color of font-->
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}">
-                                    <ContentPresenter HorizontalAlignment="Center"
-                                                      VerticalAlignment="Center"
-                                                      TextElement.FontWeight="DemiBold"
-                                                      TextElement.FontFamily="Roboto"
-                                                      TextElement.Foreground="{TemplateBinding Foreground}" />
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#e5d8c3" />
-                                    </Trigger>
-                                    <Trigger Property="IsPressed" Value="True">
-                                        <Setter Property="Background" Value="Gray" />
-                                    </Trigger>
-                                    <!-- Add other triggers as necessary -->
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-
-                <Style TargetType="{x:Type Button}" x:Key="FormatImageStyle">
-                    <Setter Property="Width" Value="30"></Setter>
-                    <Setter Property="CommandTarget" Value="{Binding ElementName=MainRtb}"></Setter>
-                    <Setter Property="Margin" Value="2"></Setter>
-                    <Setter Property="Background" Value="#FFF0D9"></Setter>
-                    <Setter Property="Foreground" Value="#191815"></Setter> <!--Color of icon-->
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type Button}">
-                                <Border Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}">
-                                    <ContentPresenter HorizontalAlignment="Center"
-                                                      VerticalAlignment="Center"
-                                                      TextElement.FontWeight="DemiBold"
-                                                      TextElement.FontFamily="Roboto"
-                                                      TextElement.Foreground="{TemplateBinding Foreground}" />
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#e5d8c3" />
-                                    </Trigger>
-                                    <Trigger Property="IsPressed" Value="True">
-                                        <Setter Property="Background" Value="Gray" />
-                                    </Trigger>
-                                    <!-- Add other triggers as necessary -->
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-
-                <!-- RichTextBox style -->
-                <Style TargetType="{x:Type document:MainRichTextBox}">
-                    <Setter Property="Padding" Value="10"></Setter>
-                    <Setter Property="Background" Value="#FAFAFA"></Setter>
-                    <Setter Property="BorderThickness" Value="0"></Setter>
-                    <Setter Property="BorderBrush" Value="#DDD"></Setter>
-                    <Setter Property="SelectionBrush" Value="	#d9e8ff"></Setter>
-                    <Setter Property="SelectionOpacity" Value="0.5" />
-                </Style>
-                <!-- ToolBar style -->
-                <Style TargetType="{x:Type ToolBar}">
-                    <Setter Property="Background" Value="#FFF0D9"></Setter>
-                    <Setter Property="BorderThickness" Value="0"></Setter>
-                    <Setter Property="BorderBrush" Value="Transparent"></Setter>
-                </Style>
-
-            </Grid.Resources>
-
             <!-- Layout -->
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" /> <!-- Navbar -->
@@ -192,16 +95,8 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <!--<TextBlock Grid.Column="1"
-                               Text="Poe"
-                               Margin="5, 15 0, 0"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left"
-                               Foreground="#333"
-                               FontSize="24" />-->
                 </Grid>
             </Grid>
-
             <!-- Toolbar -->
             <Border Grid.Row="1"
                     BorderBrush="Gray"
@@ -317,6 +212,19 @@
                                 ToolTip="Decrease Indent">
                             <materialIcons:MaterialIcon Kind="FormatIndentDecrease" Width="16" Height="16" />
                         </Button>
+                        <ComboBox x:Name="ZoomComboBox"
+                                  Width="120"
+                                  Margin="5"
+                                  SelectedItem="{Binding CurrentZoomLevel, Mode=TwoWay}"
+                                  SelectionChanged="ZoomComboBox_SelectionChanged">
+                            <ComboBoxItem Content="50%"/>
+                            <ComboBoxItem Content="75%"/>
+                            <ComboBoxItem Content="100%"/>
+                            <ComboBoxItem Content="125%"/>
+                            <ComboBoxItem Content="150%"/>
+                            <ComboBoxItem Content="175%"/>
+                            <ComboBoxItem Content="200%"/>
+                        </ComboBox>
                     </ToolBar>
                 </StackPanel>
             </Border>
@@ -324,12 +232,12 @@
 
             <!-- Main content area -->
             <Border Grid.Row="2" BorderThickness="1" CornerRadius="0" BorderBrush="Gray">
-                <FlowDocumentScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Focusable="False" MinZoom="50" MaxZoom="1000"
-                                          Zoom="120" ZoomIncrement="5">
+                <FlowDocumentScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Focusable="False">
                     <FlowDocument Background="#323230"
                                   PageHeight="816"  
                                   PageWidth="Auto"
-                                  Focusable="False">
+                                  Focusable="False"
+                                  >
                         <!-- todo figure out page w/h for printing -->
                         <!-- MinPageHeight="3in" -->
                         <!-- MinPageWidth="5in" -->
@@ -353,7 +261,7 @@
 
 
                                 <!-- Main document column -->
-                                <Grid Grid.Row="1" Grid.Column="1" MinHeight="9.0in">
+                                <Grid Grid.Row="1" Grid.Column="1" MinHeight="{Binding RtbHeight}">
                                     <document:MainRichTextBox x:Name="MainRtb"
                                                            AcceptsTab="True"
                                                            AcceptsReturn="True"
@@ -368,7 +276,6 @@
                                                            SpellCheck.IsEnabled="True"
                                                            Language="en-US"
                                                            helpers:RichTextBoxHelper.DocumentXaml="{Binding Document.Content, UpdateSourceTrigger=PropertyChanged}" >
-                                        <!-- Todo add spellchecking context -->
                                         <RichTextBox.ContextMenu>
                                             <ContextMenu x:Name="MainRtbContextMenu">
                                                 <MenuItem Header="Cut" Command="ApplicationCommands.Cut">
@@ -425,28 +332,22 @@
                                                         <materialIcons:MaterialIcon Kind="Analytics" />
                                                     </MenuItem.Icon>
                                                 </MenuItem>
+                                                <MenuItem Header="Test End Words"
+                                                          Click="TestEndWords">
+                                                    <MenuItem.Icon>
+                                                        <materialIcons:MaterialIcon Kind="TestTube" />
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
                                             </ContextMenu>
                                         </RichTextBox.ContextMenu>
                                         <RichTextBox.InputBindings>
                                             <KeyBinding Key="V" Modifiers="Control+Shift"
                                                         Command="ApplicationCommands.Paste" />
                                         </RichTextBox.InputBindings>
+                                        <RichTextBox.LayoutTransform>
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />                                        
+                                        </RichTextBox.LayoutTransform>
                                     </document:MainRichTextBox>
-                                    <Popup x:Name="InfoPopup" Width="300" Height="50" Placement="Center">
-                                        <Border Background="White" BorderBrush="Black" BorderThickness="1">
-                                            <TextBlock x:Name="PopupText" TextWrapping="Wrap" Margin="10"/>
-                                        </Border>
-                                    </Popup>
-                                    <Popup Name="SuggestionsPopup"
-                                           PlacementTarget="{Binding ElementName=MainRtb}"
-                                           Placement="Bottom"
-                                           StaysOpen="False"
-                                           IsOpen="False">
-                                        <ListBox Name="SuggestionsListBox"
-                                                 Background="White"
-                                                 BorderBrush="Black"
-                                                 BorderThickness="1" />
-                                    </Popup>
                                 </Grid>
                                 
                                 <!-- Right column for search results -->

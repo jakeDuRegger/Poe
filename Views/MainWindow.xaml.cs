@@ -29,6 +29,17 @@ public partial class MainWindow : Window
 
         // Subscribe to the navigation request event
         viewModel.RequestNavigation += HandleNavigationRequest;
+
+        // So I guess this sets the minimum height of MainRtb whenever the user updates it???
+        MainRtb.LayoutUpdated += MainRtb_LayoutUpdated;
+    }
+
+    private void MainRtb_LayoutUpdated(object? sender, EventArgs e)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            viewModel.RtbHeight = MainRtb.GetDocumentHeight();
+        }
     }
 
     // Ctrl + Shift + V functionality in MainRtb todo fix this
@@ -39,7 +50,7 @@ public partial class MainWindow : Window
         e.Handled = true;
     }
 
-    // Custom context menu in MainRtb
+    // Custom context menu in MainRtb todo move this to view model.
     private void MainRtb_ContextMenuOpening(object sender, ContextMenuEventArgs e)
     {
         int indexCounter = 0;
@@ -54,16 +65,20 @@ public partial class MainWindow : Window
         // Get the position in the text
         TextPointer? position = MainRtb.GetPositionFromPoint(mousePosition, true);
 
-        // Get the word at the caret or the selected word
-        string? word = GetWordAtPosition(MainRtb) ?? string.Empty; // Ensure word is not null
 
         if (DataContext is MainWindowViewModel viewModel)
         {
-            string selectedText = MainRtb.Selection.Text;
-            if (!string.IsNullOrEmpty(selectedText.Trim()))
-                viewModel.SetCurrentSelectedWord(selectedText);
-            if (!string.IsNullOrEmpty(word))
-                viewModel.SelectedWord = word; // Correctly set the selected word
+            //  Only try to append word if there's a singular word
+            if (!viewModel.MultipleWords(MainRtb.Selection.Text))
+            {
+                // Get the word at the caret or the selected word
+                string? word = GetWordAtPosition(MainRtb) ?? string.Empty; // Ensure word is not null
+                string selectedText = MainRtb.Selection.Text;
+                if (!string.IsNullOrEmpty(selectedText.Trim()))
+                    viewModel.SetCurrentSelectedWord(selectedText);
+                if (!string.IsNullOrEmpty(word))
+                    viewModel.SelectedWord = word; // Correctly set the selected word
+            }
         }
 
         if (position != null)
@@ -306,6 +321,21 @@ public partial class MainWindow : Window
         }
     }
 
+    private void ZoomComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (ZoomComboBox.SelectedItem is ComboBoxItem selectedZoom)
+        {
+            string zoomText = selectedZoom.Content.ToString().Replace("%", "");
+            if (double.TryParse(zoomText, out double zoomValue))
+            {
+                var scale = MainRtb.LayoutTransform as ScaleTransform;
+                double factor = zoomValue / 100.0;
+                scale.ScaleX = factor;
+                scale.ScaleY = factor;
+            }
+        }
+    }
+
     // todo Content box for bullets / numbering
 
 
@@ -323,18 +353,37 @@ public partial class MainWindow : Window
     private async void AnalyzeRhymes_Click(object sender, RoutedEventArgs e)
     {
         Dictionary<char, List<string>> rhymeScheme = new Dictionary<char, List<string>>();
-        if (DataContext is MainWindowViewModel viewModel) {
+        if (DataContext is MainWindowViewModel viewModel)
+        {
             var text = MainRtb.Selection.Text;
-            var wordsFromText = await viewModel.GetWordsFromText(text);
-            rhymeScheme= await viewModel.GetRhymeSchemeForView(wordsFromText);
-            // Format the dictionary into a readable string
+            
+            // Get the lines from the selected text
+            var lines = await viewModel.GetLinesFromText(text);
+            
+            // Get the end words from lines.
+            var endWords = await viewModel.GetEndWordsFromText(lines);
+
+            rhymeScheme = await viewModel.GetRhymeSchemeForView(endWords);
+            
+            
+
+            // Use StringBuilder to create the display format
             var rhymeSchemeDisplay = new StringBuilder();
+
+            // Append each entry in the rhymeScheme dictionary to the StringBuilder
             foreach (var entry in rhymeScheme)
             {
+                // Add each key and its corresponding values formatted as 'Key: Value, Value'
                 rhymeSchemeDisplay.AppendLine($"{entry.Key}: {string.Join(", ", entry.Value)}");
             }
 
-            MessageBox.Show($"There were a total of: {rhymeScheme.Count} rhyme schemes in your text. Here are the rhyme schemes:\n" + rhymeSchemeDisplay.ToString());
+            // Display the results in a MessageBox
+            MessageBox.Show(
+                $"There were a total of: {rhymeScheme.Count} rhyme schemes in your text.\n\n" +
+                rhymeSchemeDisplay.ToString(),
+                "Rhyme Schemes Analysis",  // Title for the MessageBox
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
         }
         else
         {
@@ -344,7 +393,6 @@ public partial class MainWindow : Window
 
     private void MainRtb_OnTextChanged(object sender, TextChangedEventArgs e)
     {
-        
         // We want to only call the event once there are a sufficient amount of lines
         // We need to cache the results of our already identified rhyme schemes if the end words are still the same.
         // We need to update the cache if the end words change.
@@ -355,13 +403,12 @@ public partial class MainWindow : Window
         // I wonder if this requires an additional custom event handler that checks position
         // Adding a debounce timer would help to reduce resource overhead and not annoy the user.
         // Debounce timer + only being called on worthy changes to pre-existing text would be the goal I assume.
-        
-        
+
         /*// Access the text from the RichTextBox
         TextRange textRange = new TextRange(MainRtb.Document.ContentStart, MainRtb.Document.ContentEnd);
-        
+
         string textContent = textRange.Text;
-        
+
         // Normalize newline characters and split the text into lines
         var lines = textContent.Replace("\r\n", "\n").Split('\n');
         // Check if there are at least two non-empty lines
@@ -369,10 +416,25 @@ public partial class MainWindow : Window
         {
             MessageBox.Show("There are two lines!");
         }*/
-
     }
+
     private void BreakPage_Click(object sender, RoutedEventArgs e)
     {
         MainRtb?.BreakPage();
+    }
+
+    private async void TestEndWords(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
+        {
+            string text = MainRtb.Selection.Text;
+            var endWords = await viewModel.GetLinesFromText(text);
+            string result = null;
+            foreach (var word in endWords)
+            {
+                result += word + "\n";
+            }
+            MessageBox.Show(result);
+        }
     }
 }

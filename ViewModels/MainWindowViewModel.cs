@@ -29,6 +29,9 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty]
     private bool _isModified;
 
+    [ObservableProperty] 
+    private double _rtbHeight;
+
     
     public MainWindowViewModel()
     {
@@ -279,14 +282,18 @@ public partial class MainWindowViewModel : ObservableObject
         return _dataMuse.GetRhymeScheme(text);
     }
 
-    
+    /// <summary>
+    /// Returns list of words from text using regex.
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
     public Task<List<string>> GetWordsFromText(string text)
     {
         return Task.Run(() =>
         {
             // Regex pattern to match words (sequences of word characters)
-            var matches = Regex.Matches(text, @"\b\w+\b");
-
+            var matches = Regex.Matches(text, @"[\w']+[^\p{P}\d]");
+            
             // Convert matches to a list of words
             var words = new List<string>();
             foreach (Match match in matches)
@@ -297,8 +304,85 @@ public partial class MainWindowViewModel : ObservableObject
         });
     }
     
+    /// <summary>
+    /// Returns list of lowercase words from text.
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    public Task<List<string>> GetLowerCaseWordsFromText(string text) 
+        // todo potentially rename function since it culls apostrophes as well...
+    {
+        return Task.Run(() =>
+        {
+            // Regex pattern to match words (sequences of word characters)
+            var matches = Regex.Matches(text, @"[\w']+[^\p{P}\d]");
+
+            
+            // Convert matches to a list of words
+            var words = new List<string>();
+            foreach (Match match in matches)
+            {
+                // Convert to lower case and cull apostrophes.
+                words.Add(match.Value.ToLower().Replace("'", "")); 
+            }
+            return words;
+        });
+    }
+    
+    /// <summary>
+    /// Retrieves last word in line from given text.
+    /// </summary>
+    /// <param name="lines"></param>
+    /// <returns>List of strings in lowercase without punctuation.</returns>
+     public Task<List<string>> GetEndWordsFromText(List<string> lines) 
+     {
+         return Task.Run(() =>
+         {
+
+             return lines
+                 .Select(line =>
+                 {
+                     // Split line into words, remove empty entries, and trim punctuation from the last word
+                     var lastWord = line.Split(new[] { ' ' }, System.StringSplitOptions.RemoveEmptyEntries)
+                         .LastOrDefault();
+                     lastWord = lastWord?.ToLower().Trim();
+
+                     return string.IsNullOrEmpty(lastWord) ? "" : lastWord.TrimEnd('.', ',', ';', ':', '!', '?', '-', '\'', '—');;
+                 })
+                 .ToList();
+         });
+     }
+
+    public Task<List<string>> GetLinesFromText(string text)
+    {
+        return Task.Run(() =>
+        {
+            // Normalize newline characters and split the text into lines
+            var lines = text.Replace("\r\n", "\n").Split('\n');
+
+            var lineList = lines.ToList();
+
+            lineList.RemoveAll(string.IsNullOrWhiteSpace);
+            
+            return lineList;
+        });
+    }
+
+    /// <summary>
+    /// Checks if there are multiple words in a given string of text.
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
+    public bool MultipleWords(string text)
+    {
+        // todo come back to this and potentially make this check more efficient
+        // Split the string on whitespace characters and check the length of the array
+        var words = text.Split(new char[] {' '}, System.StringSplitOptions.RemoveEmptyEntries);
+        return words.Length > 1;
+    }
+
     /*
-     * Custom routed events 
+     * Custom routed events
      */
     private void DiffAlgorithm()
     {

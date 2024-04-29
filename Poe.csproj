@@ -41,6 +41,8 @@
       <None Update="Data\Settings\config.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Remove="Font\Bagnard.otf" />
+      <Resource Include="Fonts\Bagnard.otf" />
     </ItemGroup>
 
     <ItemGroup>

@@ -18,7 +18,7 @@
 
     <!-- Button styles -->
     <Style TargetType="{x:Type Button}" x:Key="FormatTextStyle">
-        <Setter Property="FontFamily" Value="Roboto"></Setter>
+        <Setter Property="FontFamily" Value="{StaticResource Bagnard}"></Setter>
         <Setter Property="FontWeight" Value="DemiBold"></Setter>
         <Setter Property="Width" Value="36"></Setter>
         <Setter Property="FontSize" Value="14"></Setter>
@@ -35,7 +35,7 @@
                         <ContentPresenter HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
                                           TextElement.FontWeight="DemiBold"
-                                          TextElement.FontFamily="Roboto"
+                                          TextElement.FontFamily="{StaticResource Bagnard}"
                                           TextElement.Foreground="{TemplateBinding Foreground}" />
                     </Border>
                     <ControlTemplate.Triggers>
@@ -69,7 +69,7 @@
                         <ContentPresenter HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
                                           TextElement.FontWeight="DemiBold"
-                                          TextElement.FontFamily="Roboto"
+                                          TextElement.FontFamily="{StaticResource Bagnard}"
                                           TextElement.Foreground="{TemplateBinding Foreground}" />
                     </Border>
                     <ControlTemplate.Triggers>
