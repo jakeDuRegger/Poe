@@ -73,11 +73,25 @@ public partial class MainWindow : Window
             {
                 // Get the word at the caret or the selected word
                 string? word = GetWordAtPosition(MainRtb) ?? string.Empty; // Ensure word is not null
+                
                 string selectedText = MainRtb.Selection.Text;
-                if (!string.IsNullOrEmpty(selectedText.Trim()))
+
+                word = word.Trim();
+                selectedText = selectedText.Trim();
+                
+                if (!string.IsNullOrEmpty(selectedText))
                     viewModel.SetCurrentSelectedWord(selectedText);
-                if (!string.IsNullOrEmpty(word))
-                    viewModel.SelectedWord = word; // Correctly set the selected word
+                
+                else if (!string.IsNullOrEmpty(word))
+                    viewModel.SetCurrentSelectedWord(word);
+                
+                else
+                    viewModel.SetCurrentSelectedWord("");
+            }
+            else
+            {
+                // Make sure it updates to remove last word appended.
+                viewModel.SetCurrentSelectedWord("");
             }
         }
 
@@ -365,8 +379,6 @@ public partial class MainWindow : Window
 
             rhymeScheme = await viewModel.GetRhymeSchemeForView(endWords);
             
-            
-
             // Use StringBuilder to create the display format
             var rhymeSchemeDisplay = new StringBuilder();
 
@@ -428,7 +440,8 @@ public partial class MainWindow : Window
         if (DataContext is MainWindowViewModel viewModel)
         {
             string text = MainRtb.Selection.Text;
-            var endWords = await viewModel.GetLinesFromText(text);
+            var lines = await viewModel.GetLinesFromText(text);
+            var endWords = await viewModel.GetEndWordsFromText(lines);
             string result = null;
             foreach (var word in endWords)
             {

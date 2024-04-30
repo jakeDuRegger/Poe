@@ -369,16 +369,27 @@ public partial class MainWindowViewModel : ObservableObject
     }
 
     /// <summary>
-    /// Checks if there are multiple words in a given string of text.
+    /// Checks if there are at least two words in given text.
     /// </summary>
     /// <param name="text"></param>
     /// <returns></returns>
     public bool MultipleWords(string text)
     {
         // todo come back to this and potentially make this check more efficient
-        // Split the string on whitespace characters and check the length of the array
-        var words = text.Split(new char[] {' '}, System.StringSplitOptions.RemoveEmptyEntries);
-        return words.Length > 1;
+        // Regex pattern to find words between word boundaries
+        var matcher = new Regex(@"\b\w+\b");
+        var matchCount = 0;
+
+        foreach (Match match in matcher.Matches(text))
+        {
+            matchCount++;
+            if (matchCount == 2)  // Check if two words have been found
+            {
+                return true;
+            }
+        }
+
+        return false;  // Less than two words found
     }
 
     /*

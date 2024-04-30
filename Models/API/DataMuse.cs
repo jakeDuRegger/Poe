@@ -262,16 +262,6 @@ public class DataMuse
             uniqueWords.Remove(word);
         }
         
-        // Remove entries with empty rhyme lists before returning
-        var keysWithEmptyLists = rhymeDictionary.Where(kvp => kvp.Value.Count == 0)
-            .Select(kvp => kvp.Key)
-            .ToList();  // ToList to avoid modifying the collection while iterating
-
-        foreach (var key in keysWithEmptyLists)
-        {
-            rhymeDictionary.Remove(key);
-        }
-
         return rhymeDictionary;
     }
 
@@ -287,29 +277,44 @@ public class DataMuse
     {
         // Dictionary mapping letters to rhymes ("A" => ["cat", "bat"])
         var rhymeScheme = new Dictionary<char, List<string>>();
-
-        var c = 'A';
-
+        
+        if (commonRhymeDictionary == null) return rhymeScheme; //todo exception handle instead
+        
         // Add the words and their respective rhymes to a place within the rhymeScheme dictionary
+        var c = 'A';
         foreach (var word in commonRhymeDictionary)
         {
-            if (!rhymeScheme.ContainsKey(c))
+            if (word.Value.Count != 0)
             {
-                rhymeScheme[c] = new List<string>();
-            }
-            
-            // Add word to rhyme scheme.
-            rhymeScheme[c].Add(word.Key);
-        
-            // Add each rhyme from that word to rhyme scheme.
-            foreach (var rhyme in word.Value)
-            {
-                rhymeScheme[c].Add(rhyme);
 
+                if (!rhymeScheme.ContainsKey(c))
+                {
+                    rhymeScheme[c] = new List<string>();
+                }
+                
+                // Add word to rhyme scheme.
+                rhymeScheme[c].Add(word.Key);
+
+                // Add each rhyme to word's rhyme scheme.
+                foreach (var rhyme in word.Value)
+                {
+                    rhymeScheme[c].Add(rhyme);
+                }
+
+                c++;
             }
-            c++;
+            else
+            {
+                // Add words with no rhymes to 'X' rhyme scheme.
+                if (!rhymeScheme.ContainsKey('X'))
+                {
+                    rhymeScheme['X'] = new List<string>();
+                }
+                
+                // Add word to rhyme scheme.
+                rhymeScheme['X'].Add(word.Key);
+            }
         }
-        
         return rhymeScheme;
     }
 
