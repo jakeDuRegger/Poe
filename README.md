@@ -1,6 +1,8 @@
 # Poe
 ### Craft Your Narrative.
 
+![Poe Application](poe.jpg)
+
 ## Introduction
 Poe is a versatile literature editor designed for writers and poets. Whether you're crafting a screenplay, penning a poem, or embarking on a novel or essay, Poe provides the tools you need to bring your narrative to life.
 
